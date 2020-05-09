@@ -1,9 +1,31 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, Text, H1 } from "native-base";
+import { Container, Grid, Row, Col, Card, CardItem, Text, H1, Button, Toast } from "native-base";
+
+import * as RootNavigation from '_navigations/RootNavigation';
+
 import Colors from '_styles/colors';
+import { authService as auth } from '_services/auth';
+import { ToastService as toast } from '_services/common';
 
 export default class SignInScreen extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    async signIn() {
+        try {
+            let response = await auth.login('username', 'pass');
+            toast.success('Successful Login');
+
+            //redirect to Dashboard via Landing screen
+            RootNavigation.navigate('Landing');
+        } catch (error) {
+            toast.error(error);
+        }
+    }
+
     render() {
         return (
             <Container>
@@ -15,6 +37,11 @@ export default class SignInScreen extends Component {
                                     <Text>
                                         Sign In!
                                     </Text>
+                                </CardItem>
+                                <CardItem>
+                                    <Button bordered onPress={this.signIn}>
+                                        <Text>Go</Text>
+                                    </Button>
                                 </CardItem>
                             </Card>
                         </Col>

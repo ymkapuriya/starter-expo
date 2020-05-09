@@ -10,6 +10,7 @@ module.exports = {
                     _assets: './app/assets',
                     _components: './app/components',
                     _configs: './app/configs',
+                    _navigations: './app/navigations',
                     _views: './app/views',
                     _services: './app/services',
                     _styles: './app/styles'
