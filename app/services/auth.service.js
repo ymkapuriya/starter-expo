@@ -1,7 +1,7 @@
 import { Environment as env, Data } from '_configs/constants';
 import * as SecureStore from 'expo-secure-store';
 
-const headers = {
+const publicHeaders = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': '*',
@@ -43,7 +43,7 @@ class AuthService {
         try {
             let response = await fetch(url, {
                 method: 'POST',
-                headers: headers,
+                headers: publicHeaders,
                 body: JSON.stringify(body)
             });
             if (response.ok) {
@@ -62,7 +62,7 @@ class AuthService {
                 return Promise.reject(error);
             }
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(error.message);
         }
     }
 
@@ -73,13 +73,11 @@ class AuthService {
 
         //get token
         let token = {};
-        try {           
-            let strToken = await this.getToken();
-            token = JSON.parse(strToken);
-            console.log(token);
+        try {
+            token = await this.getToken();
         } catch (error) {
             return Promise.reject(error);
-        }        
+        }
 
         //prepare url and headers
         const url = env.url + '/users/logout';
@@ -98,7 +96,9 @@ class AuthService {
                 //remove token
                 try {
                     await SecureStore.deleteItemAsync(env.tokenKey);
+                    return Promise.resolve(result);
                 } catch (error) {
+                    console.log("Delete token", error);
                     return Promise.reject(error);
                 }
             } else {
@@ -106,7 +106,7 @@ class AuthService {
                 return Promise.reject(error);
             }
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(error.message);
         }
     }
 
@@ -115,14 +115,15 @@ class AuthService {
      */
     async getToken() {
         try {
-            token = await SecureStore.getItemAsync(env.tokenKey);
+            let token = await SecureStore.getItemAsync(env.tokenKey);
             if (token) {
+                token = JSON.parse(token);
                 return Promise.resolve(token);
             } else {
                 return Promise.reject('Not signed-in');
             }
         } catch (error) {
-            console.log(error);
+            console.log("getToken", error);
             return Promise.reject(error);
         }
     }

@@ -3,7 +3,7 @@ import Colors from '_styles/colors';
 
 
 export class ToastService {
-    
+
     static success(message) {
         Toast.show({
             text: message,
@@ -17,7 +17,14 @@ export class ToastService {
             case 'string':
                 break;
             case 'object':
-                message = JSON.stringify(message);
+                messages = [];
+                for (const key in message) {
+                    if (message.hasOwnProperty(key)) {
+                        const m = message[key];
+                        messages.push(m);
+                    }
+                }
+                message = messages.join(", ");
             default:
                 break;
         }

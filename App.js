@@ -10,6 +10,13 @@ import { navigationRef } from '_navigations/RootNavigation';
 
 import LandingScreen from '_views/landing/LandingScreen';
 
+// Redux support
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
+import reducers from '_reducers';
+const store = createStore(reducers, applyMiddleware(reduxThunk));
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +31,7 @@ export default class App extends React.Component {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
-    this.setState({ isReady: true });    
+    this.setState({ isReady: true });
   }
 
   render() {
@@ -35,13 +42,15 @@ export default class App extends React.Component {
     const Stack = createStackNavigator();
 
     return (
-      <Root>
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator>
-            <Stack.Screen options={{ headerShown: false }} name="Landing" component={LandingScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Root>
+      <Provider store={store}>
+        <Root>
+          <NavigationContainer ref={navigationRef}>
+            <Stack.Navigator>
+              <Stack.Screen options={{ headerShown: false }} name="Landing" component={LandingScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Root>
+      </Provider>
     );
   }
 }

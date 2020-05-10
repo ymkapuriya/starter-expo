@@ -4,39 +4,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import SignInScreen from "../auth/SignInScreen";
-import SignUpScreen from "../auth/SignUpScreen";
-import ResetPasswordScreen from "../auth/ResetPasswordScreen";
-import DashboardScreen from "../dashboard/DashboardScreen";
-import ProfileScreen from "../profile/ProfileScreen";
+// Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { notifyError } from '_actions/error.action';
 
-import { authService as auth } from '_services/auth';
+//services
+import { ToastService as toast } from '_services/common.service';
 
-export default class LandingScreen extends Component {
+//views
+import SignInScreen from "_views/auth/SignInScreen";
+import SignUpScreen from "_views/auth/SignUpScreen";
+import ResetPasswordScreen from "_views/auth/ResetPasswordScreen";
+import DashboardScreen from "_views/dashboard/DashboardScreen";
+import ProfileScreen from "_views/profile/ProfileScreen";
+
+class LandingScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isSignedIn: false,
-            token: null,
-        };
-    }
-
-    async componentDidMount() {
-        //check whether user is logged in or not
-        try {
-            token = await auth.getToken();
-            this.setState({
-                isSignedIn: true,
-                token: token,
-            });
-        } catch (error) {
-            this.setState({
-                isSignedIn: false,
-                token: null
-            });
-        }
-        console.log(token);
     }
 
     /**
@@ -75,8 +61,21 @@ export default class LandingScreen extends Component {
         return iconName;
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.auth.isSignedIn !== prevProps.auth.isSignedIn) {
+            if(this.props.auth.isSignedIn){
+                toast.success("Welcome");
+            } else {
+                toast.success("Thank you.");
+            }            
+        }
+        if (this.props.error.isError) {
+            this.props.notifyError(this.props.error);
+        }
+    }
+
     render() {
-        if (this.state.isSignedIn) {
+        if (this.props.auth.isSignedIn) {
             //Protected view
 
             const Drawer = createDrawerNavigator();
@@ -112,3 +111,20 @@ export default class LandingScreen extends Component {
         }
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log("Landing", state);
+    const { auth, error } = state;
+    return {
+        auth,
+        error,
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        notifyError: bindActionCreators(notifyError, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingScreen);

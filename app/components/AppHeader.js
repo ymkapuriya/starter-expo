@@ -2,30 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet } from "react-native";
 import { Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 
-import * as RootNavigation from '_navigations/RootNavigation';
-
 import Colors from '_styles/colors';
-import { authService as auth } from '_services/auth';
-import { ToastService as toast } from '_services/common';
+import SignOutButton from '_components/SignOutButton';
 
 export default class AppHeader extends Component {
     constructor(props) {
         super(props);        
-    }
-
-    /**
-     * Logout
-     */
-    async signOut() {
-        try {
-            await auth.logout();
-            toast.success('Successful Logout');
-
-            //redirect to home
-            RootNavigation.navigate('Landing');
-        } catch (error) {
-            toast.error(error);
-        }
     }
 
     render() {
@@ -47,9 +29,7 @@ export default class AppHeader extends Component {
                     <Button transparent onPress={() => navigation.navigate('Dashboard')}>
                         <Icon name='home' style={styles.title} />
                     </Button>
-                    <Button transparent onPress={() => this.signOut()}>
-                        <Icon name='log-out' style={styles.title} />
-                    </Button>
+                    <SignOutButton></SignOutButton>
                 </Right>
             </Header>
         );

@@ -8,6 +8,8 @@ const paths = {
   _views: path.resolve(__dirname, 'app/views'),
   _services: path.resolve(__dirname, 'app/services'),
   _styles: path.resolve(__dirname, 'app/styles'),
+  _actions: path.resolve(__dirname, 'app/actions'),
+  _reducers: path.resolve(__dirname, 'app/reducers'),
 }
 
 module.exports = function (api) {

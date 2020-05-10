@@ -1,29 +1,30 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, Text, H1, Button, Toast } from "native-base";
+import { Container, Grid, Row, Col, Card, CardItem, Text, Button } from "native-base";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
 import Colors from '_styles/colors';
-import { authService as auth } from '_services/auth';
-import { ToastService as toast } from '_services/common';
 
-export default class SignInScreen extends Component {
+// Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { signIn } from '_actions/auth.action';
+
+class SignInScreen extends Component {
 
     constructor(props) {
         super(props);
     }
 
-    async signIn() {
-        try {
-            let response = await auth.login('username', 'pass');
-            toast.success('Successful Login');
-
-            //redirect to Dashboard via Landing screen
-            RootNavigation.navigate('Landing');
-        } catch (error) {
-            toast.error(error);
+    handleSignIn = () => {
+        let user = {
+            username: 'username',
+            password: 'password',
+            deviceId: 'device_id'
         }
+        this.props.signIn(user);
+        RootNavigation.navigate('Landing');
     }
 
     render() {
@@ -39,7 +40,7 @@ export default class SignInScreen extends Component {
                                     </Text>
                                 </CardItem>
                                 <CardItem>
-                                    <Button bordered onPress={this.signIn}>
+                                    <Button bordered onPress={this.handleSignIn}>
                                         <Text>Go</Text>
                                     </Button>
                                 </CardItem>
@@ -60,3 +61,19 @@ const styles = StyleSheet.create({
         flex: 1
     }
 });
+
+const mapStateToProps = (state) => {
+    const { auth, error } = state;
+    return {
+        auth,
+        error
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: bindActionCreators(signIn, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);

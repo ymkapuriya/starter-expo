@@ -13,7 +13,9 @@ module.exports = {
                     _navigations: './app/navigations',
                     _views: './app/views',
                     _services: './app/services',
-                    _styles: './app/styles'
+                    _styles: './app/styles',
+                    _actions: './app/actions',
+                    _reducers: './app/reducers',
                 },
             },
         },
