@@ -22,6 +22,23 @@ export default class LandingScreen extends Component {
         };
     }
 
+    async componentDidMount() {
+        //check whether user is logged in or not
+        try {
+            token = await auth.getToken();
+            this.setState({
+                isSignedIn: true,
+                token: token,
+            });
+        } catch (error) {
+            this.setState({
+                isSignedIn: false,
+                token: null
+            });
+        }
+        console.log(token);
+    }
+
     /**
      * Set title for spcecifed screen name
      * @param {string} screen 
@@ -59,21 +76,6 @@ export default class LandingScreen extends Component {
     }
 
     render() {
-        //check whether user is logged in or not
-        auth.getToken()
-            .then((token) => {
-                this.setState({
-                    isSignedIn: true,
-                    token: token,
-                });
-            })
-            .catch(() => {
-                this.setState({
-                    isSignedIn: false,
-                    token: null
-                });
-            });
-
         if (this.state.isSignedIn) {
             //Protected view
 
