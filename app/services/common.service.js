@@ -17,7 +17,7 @@ export class ToastService {
             case 'string':
                 break;
             case 'object':
-                messages = [];
+                let messages = [];
                 for (const key in message) {
                     if (message.hasOwnProperty(key)) {
                         const m = message[key];

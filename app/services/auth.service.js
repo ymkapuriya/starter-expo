@@ -1,5 +1,5 @@
 import { Environment as env, Data } from '_configs/constants';
-import * as SecureStore from 'expo-secure-store';
+import { storageService as storage } from '_services/storage.service';
 
 const publicHeaders = {
     'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class AuthService {
 
                 //store token
                 try {
-                    await SecureStore.setItemAsync(env.tokenKey, JSON.stringify(result));
+                    await storage.store(env.tokenKey, JSON.stringify(result));
                     return Promise.resolve(result);
                 } catch (error) {
                     console.log("Token save", error);
@@ -95,7 +95,7 @@ class AuthService {
 
                 //remove token
                 try {
-                    await SecureStore.deleteItemAsync(env.tokenKey);
+                    await storage.delete(env.tokenKey);
                     return Promise.resolve(result);
                 } catch (error) {
                     console.log("Delete token", error);
@@ -115,7 +115,7 @@ class AuthService {
      */
     async getToken() {
         try {
-            let token = await SecureStore.getItemAsync(env.tokenKey);
+            let token = await storage.retrieve(env.tokenKey);
             if (token) {
                 token = JSON.parse(token);
                 return Promise.resolve(token);
