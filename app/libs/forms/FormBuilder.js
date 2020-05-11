@@ -7,6 +7,7 @@ import {
 import FormTextInput from './FormTextInput';
 import FormBooleanInput from './FormBooleanInput';
 import FormButton from './FormButton';
+import FormPicker from './FormPicker';
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -153,6 +154,25 @@ class FormBuilder extends React.Component {
     );
     /* eslint-enable react/destructuring-assignment */
 
+    /* eslint-disable react/destructuring-assignment */
+    renderPickerInput = ({ name, label, items, inputProps }) => {
+        let placeHolder = "Select " + name;
+        return (
+            <FormPicker
+                {...inputProps}
+                placeHolder={placeHolder}
+                value={this.state[name]}
+                onValuePicked={(value) => {
+                    this.setState({ [name]: value });
+                }}
+                labelText={label}
+                key={name}
+                pickerItems={items}
+            />
+        )
+    };
+    /* eslint-enable react/destructuring-assignment */
+
     render() {
         const { submitBtnTitle, formFieldsRows, hideReset } = this.props;
 
@@ -165,7 +185,8 @@ class FormBuilder extends React.Component {
                             switch (field.type) {
                                 case 'boolean':
                                     return this.renderBooleanInput(field);
-
+                                case 'picker':
+                                    return this.renderPickerInput(field);
                                 default:
                                     return this.renderTextInput(field);
                             }

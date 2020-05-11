@@ -72,6 +72,22 @@ const formFields = [
             type: 'boolean',
             defaultValue: false,
         },
+    ],
+    [
+        {
+            name: 'role',
+            label: 'Role',
+            type: 'picker',
+            defaultValue: 'adm',
+            inputProps : {
+                mode: 'dropdown'
+            },
+            items: {
+                adm : 'Admin',
+                man : 'Manager',
+                op : 'Operator'
+            }
+        },
     ]
 ];
 
