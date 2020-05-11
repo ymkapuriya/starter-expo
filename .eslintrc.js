@@ -16,6 +16,8 @@ module.exports = {
                     _styles: './app/styles',
                     _actions: './app/actions',
                     _reducers: './app/reducers',
+                    _forms: './app/components/forms',
+                    _libs: './app/libs',
                 },
             },
         },

@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { Environment as env } from '_configs/constants';
+import { Environment as env, Data as data } from '_configs/constants';
 
 class StorageService {
     constructor() {
@@ -12,6 +12,10 @@ class StorageService {
      * @param {*} value 
      */
     async store(key, value) {
+        if (env.isWeb) {
+            //return without storage
+            return Promise.resolve(1);
+        }
         //store token
         try {
             value = JSON.stringify(value);
@@ -28,6 +32,15 @@ class StorageService {
      * @param {string} key 
      */
     async retrieve(key) {
+        if (env.isWeb) {
+            //retrieve from environment
+            if (data[key]) {
+                let value = data[key];
+                return Promise.resolve(value);
+            } else {
+                return Promise.reject("Not found " + key);
+            }
+        }
         try {
             let value = await SecureStore.getItemAsync(key);
             if (value) {
@@ -47,6 +60,10 @@ class StorageService {
      * @param {string} key 
      */
     async delete(key) {
+        if (env.isWeb) {
+            //return without storage
+            return Promise.resolve(1);
+        }
         try {
             await SecureStore.deleteItemAsync(key);
             return Promise.resolve(1);

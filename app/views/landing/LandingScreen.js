@@ -7,7 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { notifyError } from '_actions/error.action';
+import { notifyError } from '_actions/notify.action';
 
 //services
 import { ToastService as toast } from '_services/common.service';
@@ -63,14 +63,14 @@ class LandingScreen extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.auth.isSignedIn !== prevProps.auth.isSignedIn) {
-            if(this.props.auth.isSignedIn){
+            if (this.props.auth.isSignedIn) {
                 toast.success("Welcome");
             } else {
                 toast.success("Thank you.");
-            }            
+            }
         }
-        if (this.props.error.isError) {
-            this.props.notifyError(this.props.error);
+        if (this.props.notify.isError) {
+            this.props.notifyError(this.props.notify);
         }
     }
 
@@ -113,11 +113,11 @@ class LandingScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("Landing", state);
-    const { auth, error } = state;
+    console.log("Landing : ", state);
+    const { auth, notify } = state;
     return {
         auth,
-        error,
+        notify,
     };
 }
 

@@ -18,9 +18,8 @@ class AuthService {
      * 
      * @param {string} username 
      * @param {string} password 
-     * @param {string} deviceId 
      */
-    async login(username, password, deviceId) {
+    async login(username, password) {
         //prepare data
         let body = {};
         if (env.isDev) {
@@ -33,7 +32,7 @@ class AuthService {
             body = {
                 phone: username,
                 password: password,
-                device_id: deviceId
+                device_id: Data.deviceId
             }
         }
 
@@ -51,7 +50,7 @@ class AuthService {
 
                 //store token
                 try {
-                    await storage.store(env.tokenKey, JSON.stringify(result));
+                    await storage.store(env.tokenKey, result);
                     return Promise.resolve(result);
                 } catch (error) {
                     console.log("Token save", error);
@@ -92,7 +91,6 @@ class AuthService {
             });
             if (response.ok) {
                 let result = await response.json();
-
                 //remove token
                 try {
                     await storage.delete(env.tokenKey);
@@ -117,7 +115,6 @@ class AuthService {
         try {
             let token = await storage.retrieve(env.tokenKey);
             if (token) {
-                token = JSON.parse(token);
                 return Promise.resolve(token);
             } else {
                 return Promise.reject('Not signed-in');
@@ -127,6 +124,33 @@ class AuthService {
             return Promise.reject(error);
         }
     }
+
+    /**
+     * Send register request to server
+     * 
+     * @param {object} subscriber
+     */
+    async register(subscriber) {
+        //Mock request
+        console.log("Server", subscriber);
+        return (Math.floor(Math.random() * 2) == 0) ?
+            Promise.resolve('Mock registration successful.') :
+            Promise.reject('Error is registration.');
+    }
+
+    /**
+     * Send password reset request to server
+     * 
+     * @param {string} email
+     */
+    async resetPassword(email) {
+        //Mock request
+        console.log("Server", email);
+        return (Math.floor(Math.random() * 2) == 0) ?
+            Promise.resolve('Password reset successful.') :
+            Promise.reject('Error in password reset.');
+    }
+
 }
 
 export const authService = new AuthService();

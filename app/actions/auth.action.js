@@ -1,5 +1,5 @@
 import { authService as auth } from '_services/auth.service';
-import { ERROR_OCCURRED } from '_actions/error.action';
+import { ERROR_OCCURRED, SUCCESS_OCCURRED } from '_actions/notify.action';
 
 /**
  * action types
@@ -15,8 +15,7 @@ export const signIn = (user) => (dispatch) => {
     //send login request to server
     let username = user.username;
     let password = user.password;
-    let deviceId = user.deviceId;
-    auth.login(username, password, deviceId)
+    auth.login(username, password)
         .then((token) => {
             dispatch({
                 type: SIGN_IN,
@@ -27,7 +26,7 @@ export const signIn = (user) => (dispatch) => {
             dispatch({
                 type: ERROR_OCCURRED,
                 payload: {
-                    title: 'Sign-in failed',
+                    title: 'Sign-in',
                     error: error
                 }
             })
@@ -47,7 +46,7 @@ export const signOut = () => (dispatch) => {
             dispatch({
                 type: ERROR_OCCURRED,
                 payload: {
-                    title: 'Sign-out failed',
+                    title: 'Sign-out',
                     error: error
                 }
             })
@@ -67,9 +66,55 @@ export const getToken = () => (dispatch) => {
             dispatch({
                 type: ERROR_OCCURRED,
                 payload: {
-                    title: 'Get token failed',
+                    title: 'Get token',
                     error: error
                 }
             })
         })
+}
+
+export const signUp = (subscriber) => (dispatch) => {
+    //send sign-up request to server
+    auth.register(subscriber)
+        .then((response) => {
+            dispatch({
+                type: SUCCESS_OCCURRED,
+                payload: {
+                    title: 'Sign-up',
+                    message: response
+                }
+            })
+        })
+        .catch((error) => {
+            dispatch({
+                type: ERROR_OCCURRED,
+                payload: {
+                    title: 'Sign-up',
+                    error: error
+                }
+            })
+        });
+}
+
+export const resetPassword = (email) => (dispatch) => {
+    //send sign-up request to server
+    auth.resetPassword(email)
+        .then((response) => {
+            dispatch({
+                type: SUCCESS_OCCURRED,
+                payload: {
+                    title: 'Password Reset',
+                    message: response
+                }
+            })
+        })
+        .catch((error) => {
+            dispatch({
+                type: ERROR_OCCURRED,
+                payload: {
+                    title: 'Password Reset',
+                    error: error
+                }
+            })
+        });
 }

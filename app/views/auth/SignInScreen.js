@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, Text, Button } from "native-base";
+import { Container, View, Grid, Row, Col, Card, CardItem, H1 } from "native-base";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
@@ -10,6 +10,10 @@ import Colors from '_styles/colors';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { signIn } from '_actions/auth.action';
+import { notifyError } from '_actions/notify.action';
+
+// Components
+import { SignInForm } from '_forms';
 
 class SignInScreen extends Component {
 
@@ -17,36 +21,40 @@ class SignInScreen extends Component {
         super(props);
     }
 
-    handleSignIn = () => {
-        let user = {
-            username: 'username',
-            password: 'password',
-            deviceId: 'device_id'
-        }
+    handleSignIn = (user) => {
         this.props.signIn(user);
         RootNavigation.navigate('Landing');
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.notify.isError) {
+            this.props.notifyError(this.props.notify);
+        }
+    }
+
     render() {
         return (
-            <Container>
+            <Container style={styles.background}>
                 <Grid>
-                    <Row size={100}>
-                        <Col style={styles.background}>
-                            <Card transparent>
+                    <Row size={25}>
+                        <Col style={styles.titleCont}>
+                            <H1 style={styles.title}>
+                                Sign In!
+                            </H1>
+                        </Col>
+                    </Row>
+                    <Row size={50}>
+                        <Col size={10}></Col>
+                        <Col size={80}>
+                            <Card style={styles.formCont}>
                                 <CardItem>
-                                    <Text>
-                                        Sign In!
-                                    </Text>
-                                </CardItem>
-                                <CardItem>
-                                    <Button bordered onPress={this.handleSignIn}>
-                                        <Text>Go</Text>
-                                    </Button>
+                                    <SignInForm onSubmit={this.handleSignIn}></SignInForm>
                                 </CardItem>
                             </Card>
                         </Col>
+                        <Col size={10}></Col>
                     </Row>
+                    <Row size={25}></Row>
                 </Grid>
             </Container>
         );
@@ -55,24 +63,35 @@ class SignInScreen extends Component {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: Colors.fg,
-        justifyContent: 'center',
+        backgroundColor: Colors.bg,
+    },
+    titleCont: {
+        justifyContent: "center",
         alignItems: 'center',
-        flex: 1
+    },
+    title: {
+        justifyContent: 'center',
+        color: Colors.fg
+    },
+    formCont: {
+        justifyContent: "space-around",
+        alignItems: 'center',
+        paddingBottom: 50,
     }
 });
 
 const mapStateToProps = (state) => {
-    const { auth, error } = state;
+    const { auth, notify } = state;
     return {
         auth,
-        error
+        notify
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         signIn: bindActionCreators(signIn, dispatch),
+        notifyError: bindActionCreators(notifyError, dispatch),
     }
 }
 

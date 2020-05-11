@@ -10,6 +10,8 @@ const paths = {
   _styles: path.resolve(__dirname, 'app/styles'),
   _actions: path.resolve(__dirname, 'app/actions'),
   _reducers: path.resolve(__dirname, 'app/reducers'),
+  _forms: path.resolve(__dirname, 'app/components/forms'),
+  _libs: path.resolve(__dirname, 'app/libs'),
 }
 
 module.exports = function (api) {

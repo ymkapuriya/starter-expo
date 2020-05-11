@@ -1,23 +1,63 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, Text, H1 } from "native-base";
+import { Container, Grid, Row, Col, Card, CardItem, H1 } from "native-base";
+
+import * as RootNavigation from '_navigations/RootNavigation';
+
 import Colors from '_styles/colors';
 
-export default class SignUpScreen extends Component {
+// Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { signUp } from '_actions/auth.action';
+import { notifyError, notifySuccess } from '_actions/notify.action';
+
+// Components
+import { SignUpForm } from '_forms';
+
+class SignUpScreen extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleSignUp = (user) => {
+        this.props.signUp(user);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.notify.isSuccess) {
+            this.props.notifySuccess(this.props.notify.message);
+            setTimeout(() => {
+                RootNavigation.navigate('SignIn');
+            }, 2000);
+        }
+        if (this.props.notify.isError) {
+            this.props.notifyError(this.props.notify);
+        }
+    }
+
     render() {
         return (
-            <Container>
+            <Container style={styles.background}>
                 <Grid>
-                    <Row size={100}>
-                        <Col style={styles.background}>
-                            <Card transparent>
-                                <CardItem>
-                                    <Text>
-                                        Sign Up!
-                                    </Text>
+                    <Row size={20}>
+                        <Col style={styles.titleCont}>
+                            <H1 style={styles.title}>
+                                Sign Up!
+                            </H1>
+                        </Col>
+                    </Row>
+                    <Row size={80}>
+                        <Col size={10}></Col>
+                        <Col size={80}>
+                            <Card style={styles.formCont}>
+                                <CardItem style={styles.form}>
+                                    <SignUpForm onSubmit={this.handleSignUp}></SignUpForm>
                                 </CardItem>
                             </Card>
                         </Col>
+                        <Col size={10}></Col>
                     </Row>
                 </Grid>
             </Container>
@@ -27,9 +67,36 @@ export default class SignUpScreen extends Component {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: Colors.fg,
+        backgroundColor: Colors.bg,
+    },
+    titleCont: {
+        justifyContent: "center",
+        alignItems: 'center',
+    },
+    title: {
+        justifyContent: 'center',
+        color: Colors.fg
+    },
+    formCont: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
     }
 });
+
+const mapStateToProps = (state) => {
+    const { auth, notify } = state;
+    return {
+        auth,
+        notify
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: bindActionCreators(signUp, dispatch),
+        notifySuccess: bindActionCreators(notifySuccess, dispatch),
+        notifyError: bindActionCreators(notifyError, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
