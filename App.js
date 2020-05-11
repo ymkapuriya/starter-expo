@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native'
 import { Root } from "native-base";
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
@@ -44,6 +45,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <Root>
+          <StatusBar barStyle='dark-content' />
           <NavigationContainer ref={navigationRef}>
             <Stack.Navigator>
               <Stack.Screen options={{ headerShown: false }} name="Landing" component={LandingScreen} />
