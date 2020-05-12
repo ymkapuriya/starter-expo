@@ -9,6 +9,7 @@ import FormBooleanInput from './FormBooleanInput';
 import FormButton from './FormButton';
 import FormPicker from './FormPicker';
 import FormDatePicker from './FormDatePicker';
+import FormCheckBox from './FormCheckBox';
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -192,6 +193,23 @@ class FormBuilder extends React.Component {
     };
     /* eslint-enable react/destructuring-assignment */
 
+    /* eslint-disable react/destructuring-assignment */
+    renderCheckBoxInput = ({ name, label, items, inputProps }) => {
+        return (
+            <FormCheckBox
+                {...inputProps}
+                value={this.state[name]}
+                onValueChecked={(value) => {
+                    this.setState({ [name]: value });
+                }}
+                labelText={label}
+                key={name}
+                checkItems={items}
+            />
+        )
+    };
+    /* eslint-enable react/destructuring-assignment */
+
     render() {
         const { submitBtnTitle, formFieldsRows, hideReset } = this.props;
 
@@ -208,6 +226,8 @@ class FormBuilder extends React.Component {
                                     return this.renderPickerInput(field);
                                 case 'date':
                                     return this.renderDatePickerInput(field);
+                                case 'checkbox':
+                                    return this.renderCheckBoxInput(field);
                                 default:
                                     return this.renderTextInput(field);
                             }

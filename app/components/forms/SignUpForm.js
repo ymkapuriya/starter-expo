@@ -77,15 +77,29 @@ const formFields = [
         {
             name: 'role',
             label: 'Role',
-            type: 'picker',
-            defaultValue: 'adm',
+            type: 'checkbox',
             inputProps: {
-                mode: 'dropdown'
+                color: 'lightblue'
             },
             items: {
                 ROLE_ADMN: 'Admin',
                 ROLE_MNGR: 'Manager',
                 ROLE_OPTR: 'Operator'
+            }
+        },
+    ],
+    [
+        {
+            name: 'gender',
+            label: 'Gender',
+            type: 'picker',
+            defaultValue: 'MALE',
+            inputProps: {
+                mode: 'dropdown'
+            },
+            items: {
+                MALE: 'Male',
+                FEMALE: 'Female',
             }
         },
     ],

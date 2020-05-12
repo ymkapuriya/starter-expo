@@ -4,6 +4,7 @@ import FormTextInput from './FormTextInput';
 import FormBuilder from './FormBuilder';
 import FormPicker from './FormPicker';
 import FormDatePicker from './FormDatePicker';
+import FormCheckBox from './FormCheckBox';
 
 export {
     FormBuilder,
@@ -11,5 +12,6 @@ export {
     FormBooleanInput,
     FormButton,
     FormPicker,
-    FormDatePicker
+    FormDatePicker,
+    FormCheckBox
 };
