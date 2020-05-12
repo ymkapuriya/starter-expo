@@ -79,13 +79,23 @@ const formFields = [
             label: 'Role',
             type: 'picker',
             defaultValue: 'adm',
-            inputProps : {
+            inputProps: {
                 mode: 'dropdown'
             },
             items: {
-                adm : 'Admin',
-                man : 'Manager',
-                op : 'Operator'
+                ROLE_ADMN: 'Admin',
+                ROLE_MNGR: 'Manager',
+                ROLE_OPTR: 'Operator'
+            }
+        },
+    ],
+    [
+        {
+            name: 'birthdate',
+            label: 'Birthdate',
+            type: 'date',
+            inputProps: {
+                minimumDate: new Date(2005, 1, 1)
             }
         },
     ]

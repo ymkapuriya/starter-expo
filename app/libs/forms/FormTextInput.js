@@ -46,13 +46,16 @@ const styles = StyleSheet.create({
     },
     textInput: {
         height: 40,
-        borderWidth: 1,
-        borderRadius: 3,
         paddingHorizontal: 10,
         fontSize: 18,
+        borderBottomWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 3,
+        paddingLeft: 3
     },
     label: {
         marginBottom: 5,
+        color: 'grey'
     },
     textarea: {
         height: 80,

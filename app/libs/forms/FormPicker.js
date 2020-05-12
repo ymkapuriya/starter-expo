@@ -38,6 +38,7 @@ class FormPicker extends React.Component {
                     placeholder={placeHolder}
                     iosHeader={placeHolder}
                     iosIcon={<Icon name="arrow-down" />}
+                    textStyle={styles.input}
                     selectedValue={this.state.selected}
                     style={styles.picker}
                     onValueChange={this.onValueChange}
@@ -74,12 +75,16 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         paddingHorizontal: 10,
     },
-    picker: {
-        width: undefined
-    },
     label: {
-        marginBottom: 5,
-    }
+        color: 'grey'
+    },
+    picker: {
+        width: undefined,
+        marginStart: 0
+    },
+    input : {
+        paddingLeft:0,
+    }    
 });
 
 export default FormPicker;

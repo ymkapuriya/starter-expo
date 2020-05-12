@@ -8,6 +8,7 @@ import FormTextInput from './FormTextInput';
 import FormBooleanInput from './FormBooleanInput';
 import FormButton from './FormButton';
 import FormPicker from './FormPicker';
+import FormDatePicker from './FormDatePicker';
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -173,6 +174,24 @@ class FormBuilder extends React.Component {
     };
     /* eslint-enable react/destructuring-assignment */
 
+    /* eslint-disable react/destructuring-assignment */
+    renderDatePickerInput = ({ name, label, inputProps }) => {
+        let placeHolder = "Select " + name;
+        return (
+            <FormDatePicker
+                {...inputProps}
+                placeHolder={placeHolder}
+                value={this.state[name]}
+                onDateSelected={(value) => {
+                    this.setState({ [name]: value });
+                }}
+                labelText={label}
+                key={name}
+            />
+        )
+    };
+    /* eslint-enable react/destructuring-assignment */
+
     render() {
         const { submitBtnTitle, formFieldsRows, hideReset } = this.props;
 
@@ -187,6 +206,8 @@ class FormBuilder extends React.Component {
                                     return this.renderBooleanInput(field);
                                 case 'picker':
                                     return this.renderPickerInput(field);
+                                case 'date':
+                                    return this.renderDatePickerInput(field);
                                 default:
                                     return this.renderTextInput(field);
                             }
