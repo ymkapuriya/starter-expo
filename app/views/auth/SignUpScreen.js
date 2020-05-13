@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Container, Grid, Row, Col, Card, CardItem, H1 } from "native-base";
 
-import * as RootNavigation from '_navigations/RootNavigation';
+import { NavigationContext } from '@react-navigation/native';
 
 import Colors from '_styles/colors';
 
@@ -17,6 +17,8 @@ import { SignUpForm } from '_forms';
 
 class SignUpScreen extends Component {
 
+    static contextType = NavigationContext;
+
     constructor(props) {
         super(props);
     }
@@ -25,11 +27,23 @@ class SignUpScreen extends Component {
         this.props.signUp(user);
     }
 
+    componentDidMount() {
+        const navigation = this.context;
+        this._focus = navigation.addListener('focus', () => {
+            console.log("Focus");
+        });
+    }
+
+    componentWillUnmount() {
+        this._focus();
+    }
+
     componentDidUpdate(prevProps) {
+        const navigation = this.context;
         if (this.props.notify.isSuccess) {
             this.props.notifySuccess(this.props.notify.message);
             setTimeout(() => {
-                RootNavigation.navigate('SignIn');
+                navigation.navigate('SignIn');
             }, 2000);
         }
         if (this.props.notify.isError) {
@@ -53,7 +67,9 @@ class SignUpScreen extends Component {
                         <Col size={80}>
                             <Card style={styles.formCont}>
                                 <CardItem style={styles.form}>
-                                    <SignUpForm onSubmit={this.handleSignUp}></SignUpForm>
+                                    <SignUpForm
+                                        onSubmit={this.handleSignUp}
+                                    />
                                 </CardItem>
                             </Card>
                         </Col>
