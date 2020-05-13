@@ -12,7 +12,6 @@ const formFields = [
             name: 'email',
             label: 'Email',
             type: 'text',
-            defaultValue: data.subscriber.email,
             inputProps: {
                 autoCorrect: false,
                 autoCapitalize: 'none',
@@ -21,6 +20,10 @@ const formFields = [
         },
     ]    
 ];
+
+const defaultValues = {
+    email: data.subscriber.email,
+}
 
 export default class ResetPasswordForm extends Component {
 
@@ -32,6 +35,11 @@ export default class ResetPasswordForm extends Component {
     getFormFields = () => {
         const fields = formFields;
         return fields;
+    }
+
+    getDefaultValues = () => {
+        const defaults = defaultValues;
+        return defaults;
     }
 
     handleSubmit = (state) => {
@@ -48,6 +56,7 @@ export default class ResetPasswordForm extends Component {
                 <KeyboardAvoidingView behavior="padding" style={styles.container}>
                     <FormBuilder
                         formFieldsRows={this.getFormFields()}
+                        defaultValues={this.getDefaultValues()}
                         handleSubmit={this.handleSubmit}
                         submitBtnTitle="Reset Password"
                         hideReset={this.hideReset}

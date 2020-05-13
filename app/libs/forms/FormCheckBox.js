@@ -26,23 +26,40 @@ class FormCheckBox extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            checkedItems: []
-        }
-
         //prepare options
-        this.options = [];
-        let options = this.props.checkItems;
-        for (const key in options) {
-            if (options.hasOwnProperty(key)) {
-                const value = options[key];
-                this.options.push({
+        const options = this.prepareOptions();
+        const defaultChecked = Array.isArray(this.props.value) ? this.props.value : [];
+
+        this.state = {
+            checkedItems: defaultChecked,
+            options: options
+        }
+    }
+
+    prepareOptions = () => {
+        const { checkItems } = this.props;
+        const options = [];
+        for (const key in checkItems) {
+            if (checkItems.hasOwnProperty(key)) {
+                const value = checkItems[key];
+                options.push({
                     id: key,
                     title: value
                 })
             }
         }
-        console.log(this.options);
+        return options;
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.value !== prevState.value) {
+            const defaultChecked = Array.isArray(nextProps.value) ? nextProps.value : [];
+            return {
+                checkedItems: defaultChecked
+            }
+        } else {
+            return null;
+        }
     }
 
     checkBoxPressed = (value) => {
@@ -60,15 +77,33 @@ class FormCheckBox extends React.Component {
     }
 
     render() {
-        const { labelText, checkItems, ...inputProps } = this.props;
+        const { name, labelText, ...inputProps } = this.props;
         return (
             <View style={styles.inputWrapper}>
                 {
                     labelText &&
                     <Text style={styles.label}>{labelText}</Text>
                 }
+                <View style={styles.optionsCont}>
+                    {
+                        this.state.options.map((item, i) => {
+                            const key = name + "-" + i;
+                            return (
+                                <CheckItem
+                                    id={item.id}
+                                    title={item.title}
+                                    checked={this.state.checkedItems.includes(item.id) ? true : false}
+                                    checkBoxPressed={() => this.checkBoxPressed(item.id)}
+                                    key={key}
+                                />
+                            )
+                        })
+                    }
+                </View>
+                {/* 
+                //To avoid warning of FlatList inside ScrollView
                 <FlatList
-                    data={this.options}
+                    data={this.state.options}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
                         <CheckItem
@@ -79,18 +114,21 @@ class FormCheckBox extends React.Component {
                         />
                     }
                 />
+                */}
             </View>
         )
     }
 }
 
 FormCheckBox.propTypes = {
+    value: PropTypes.array,
     labelText: PropTypes.string.isRequired,
     onValueChecked: PropTypes.func,
     checkItems: PropTypes.object.isRequired,
 };
 
 FormCheckBox.defaultProps = {
+    value: [],
     labelText: null,
     onValueChecked: f => f,
     checkItems: {},
@@ -99,11 +137,13 @@ FormCheckBox.defaultProps = {
 const styles = StyleSheet.create({
     inputWrapper: {
         flex: 1,
-        marginBottom: 15,
         paddingHorizontal: 10,
     },
     label: {
         color: 'grey'
+    },
+    optionsCont: {
+        paddingTop: 10
     },
     item: {
         borderWidth: 0,

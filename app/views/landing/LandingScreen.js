@@ -91,6 +91,7 @@ class LandingScreen extends Component {
             const Tab = createBottomTabNavigator();
             return (
                 <Tab.Navigator
+                    initialRouteName="SignUp"
                     screenOptions={({ route }) => ({
                         title: this.setScreenTitle(route.name),
                         tabBarIcon: ({ focused, color, size }) => {

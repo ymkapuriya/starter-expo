@@ -13,10 +13,29 @@ class FormPicker extends React.Component {
     constructor(props) {
         super(props)
 
+        //get default
+        const defaultSelected = this.props.value
         this.state = {
-            selected: undefined
+            selected: defaultSelected
         }
     }
+
+    /**
+     * In case form is reset default value is to be set for this componenet
+     * @param {Object} nextProps 
+     * @param {Object} prevState 
+     */
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.value !== prevState.value) {
+            const defaultSelected = nextProps.value
+            return {
+                selected: defaultSelected
+            }
+        } else {
+            return null;
+        }
+    }
+
 
     onValueChange = (value) => {
         this.setState({
@@ -46,7 +65,11 @@ class FormPicker extends React.Component {
                 >
                     {
                         Object.keys(pickerItems).map((key, i) => (
-                            <Picker.Item label={pickerItems[key]} value={key} style={styles.item} key={`item-${i}`} />
+                            <Picker.Item
+                                label={pickerItems[key]}
+                                value={key}
+                                style={styles.item}
+                                key={`item-${i}`} />
                         ))
                     }
                 </Picker>
@@ -72,7 +95,6 @@ FormPicker.defaultProps = {
 const styles = StyleSheet.create({
     inputWrapper: {
         flex: 1,
-        marginBottom: 15,
         paddingHorizontal: 10,
     },
     label: {
@@ -82,9 +104,9 @@ const styles = StyleSheet.create({
         width: undefined,
         marginStart: 0
     },
-    input : {
-        paddingLeft:0,
-    }    
+    input: {
+        paddingLeft: 0,
+    }
 });
 
 export default FormPicker;

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 
 import Colors from '_styles/colors';
 import { Data as data } from '_configs/constants';
 
 import { FormBuilder } from '_libs/forms';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const formFields = [
     [
@@ -12,7 +13,6 @@ const formFields = [
             name: 'firstName',
             label: 'First Name',
             type: 'text',
-            defaultValue: data.subscriber.first_name,
             inputProps: {
                 autoCorrect: false,
             },
@@ -21,7 +21,7 @@ const formFields = [
             name: 'lastName',
             label: 'Last Name',
             type: 'text',
-            defaultValue: data.subscriber.last_name,
+            isOptional: true,
             inputProps: {
                 autoCorrect: false,
             },
@@ -32,7 +32,7 @@ const formFields = [
             name: 'email',
             label: 'Email',
             type: 'text',
-            defaultValue: data.subscriber.email,
+            isEmail: true,
             inputProps: {
                 autoCorrect: false,
                 autoCapitalize: 'none',
@@ -45,7 +45,6 @@ const formFields = [
             name: 'phone',
             label: 'Mobile No',
             type: 'text',
-            defaultValue: data.subscriber.phone,
             inputProps: {
                 autoCorrect: false,
                 autoCapitalize: 'none',
@@ -59,7 +58,6 @@ const formFields = [
             name: 'password',
             label: 'Password',
             type: 'text',
-            defaultValue: data.subscriber.password,
             inputProps: {
                 secureTextEntry: true,
             },
@@ -70,7 +68,6 @@ const formFields = [
             name: 'subscribe',
             label: 'Subscribe me to weekly news from Tech world.',
             type: 'boolean',
-            defaultValue: false,
         },
     ],
     [
@@ -93,7 +90,6 @@ const formFields = [
             name: 'gender',
             label: 'Gender',
             type: 'picker',
-            defaultValue: 'MALE',
             inputProps: {
                 mode: 'dropdown'
             },
@@ -115,6 +111,18 @@ const formFields = [
     ]
 ];
 
+const defaultValues = {
+    firstName: data.subscriber.first_name,
+    lastName: data.subscriber.last_name,
+    email: data.subscriber.email,
+    phone: data.subscriber.phone,
+    password: data.subscriber.password,
+    subscribe: true,
+    //role: ["ROLE_ADMN"],
+    //gender: 'MALE',
+    //birthdate: new Date(),    
+}
+
 export default class SignUpForm extends Component {
 
     constructor(props) {
@@ -126,6 +134,14 @@ export default class SignUpForm extends Component {
         return fields;
     }
 
+    getDefaultValues = () => {
+        const defaults = defaultValues;
+        return defaults;
+    }
+
+    /**
+     * Submit form
+     */
     handleSubmit = (state) => {
         const data = state;
         console.log("SignUp Data", data);
@@ -136,24 +152,32 @@ export default class SignUpForm extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={styles.keyboardView}
+            >
+                <ScrollView style={styles.container}>
                     <FormBuilder
                         formFieldsRows={this.getFormFields()}
+                        defaultValues={this.getDefaultValues()}
                         handleSubmit={this.handleSubmit}
                         submitBtnTitle="Sign Up"
                     />
-                </KeyboardAvoidingView>
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    container: {        
+        color: Colors.bg,
         paddingVertical: 10,
+    },
+    keyboardView: {
         flex: 1,
-        color: Colors.bg
+        flexDirection: 'column',
+        justifyContent: 'center'
     },
     command: {
         flex: 1,

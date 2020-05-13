@@ -12,8 +12,11 @@ class FormDatePicker extends React.Component {
     constructor(props) {
         super(props)
 
+        //get default
+        this.defaultDate = this.props.value
+
         this.state = {
-            selected: new Date()
+            selected: this.defaultDate
         }
     }
 
@@ -34,7 +37,8 @@ class FormDatePicker extends React.Component {
                     <Text style={styles.label}>{labelText}</Text>
                 }
                 <DatePicker
-                    placeholder={placeHolder}
+                    defaultDate={this.defaultDate}
+                    placeHolderText={this.state.selected ? undefined : placeHolder}
                     onDateChange={this.setDate}
                     textStyle={styles.input}
                     placeHolderTextStyle={styles.input}
@@ -46,12 +50,14 @@ class FormDatePicker extends React.Component {
 }
 
 FormDatePicker.propTypes = {
+    value: PropTypes.object,
     placeHolder: PropTypes.string.isRequired,
     labelText: PropTypes.string.isRequired,
     onDateSelected: PropTypes.func,
 };
 
 FormDatePicker.defaultProps = {
+    value: new Date,
     placeholder: null,
     labelText: null,
     onDateSelected: f => f,
@@ -60,7 +66,6 @@ FormDatePicker.defaultProps = {
 const styles = StyleSheet.create({
     inputWrapper: {
         flex: 1,
-        marginBottom: 15,
         paddingHorizontal: 10,
     },
     inputCont: {

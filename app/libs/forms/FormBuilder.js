@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    View, StyleSheet, Keyboard, Alert,
+    View, StyleSheet, Keyboard, Alert, Text
 } from 'react-native';
 
 import FormTextInput from './FormTextInput';
@@ -10,6 +10,10 @@ import FormButton from './FormButton';
 import FormPicker from './FormPicker';
 import FormDatePicker from './FormDatePicker';
 import FormCheckBox from './FormCheckBox';
+
+import _ from 'lodash';
+
+import { ValidationService as vs } from '_services/validation.service';
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -28,13 +32,23 @@ class FormBuilder extends React.Component {
             return obj;
         }, {});
 
+        //initialize errors
+        const errors = [];
+        Object.keys(formFieldNames).map((value, index) => {
+            errors[value] = null;
+        });
+
         // define the initial state, so we can use it later on
         // when we'll need to reset the form
         this.initialState = {
             ...formFieldNames,
+            errors: errors,
         };
 
-        this.state = this.initialState;
+        //carefull copy
+        //this.state = JSON.parse(JSON.stringify(this.initialState));
+        this.state = _.cloneDeep(this.initialState);
+
     }
     /* eslint-enable no-param-reassign */
 
@@ -57,32 +71,95 @@ class FormBuilder extends React.Component {
      * Determine what should be the default value
      * for a given field.
      */
-    getFormFieldDefaultValue = ({ defaultValue, type }) => {
-        if (defaultValue !== undefined) {
-            return defaultValue;
-        }
-
-        switch (type) {
-            case 'boolean':
-                return false;
-            default:
-                return '';
+    getFormFieldDefaultValue = (field) => {
+        if (this.props.defaultValues.hasOwnProperty(field.name)) {
+            return this.props.defaultValues[field.name];
+        } else {
+            switch (field.type) {
+                case 'checkbox':
+                    return [];
+                case 'boolean':
+                    return false;
+                case 'date':
+                    return new Date();
+                default:
+                    return '';
+            }
         }
     };
+
+    /**
+     * Validate all required fields have been filled out
+     */
+    validateRequired = (formFields) => {
+
+        let isValid = true;
+        let fieldErrors = this.state.errors;
+        formFields
+            //filter boolean
+            .filter(field => field.type !== 'boolean')
+            //filter optional
+            .filter(field => !field.isOptional)
+            .map((field) => {
+                const value = this.state[field.name]
+                if ((Array.isArray(value) && value.length == 0) || !value) {
+                    fieldErrors[field.name] = field.label + " is required.";
+                    isValid = false;
+                }
+            });
+        if (!isValid) {
+            this.setState({
+                errors: fieldErrors
+            })
+        }
+        return isValid;
+    }
+
+    /**
+     * Validate all email fields
+     */
+    validateEmail = (formFields) => {
+        let isValid = true;
+        let fieldErrors = this.state.errors;
+        console.log(formFields);
+        formFields.filter(field => field.isEmail == true) // filter only email types
+            .map((field) => {
+                //get value
+                const value = this.state[field.name];
+                if (!vs.isEmail(value)) {
+                    fieldErrors[field.name] = "Not a valid email address.";
+                    isValid = false;
+                }
+            });
+        if (!isValid) {
+            this.setState({
+                errors: fieldErrors
+            })
+        }
+        return isValid;
+    }
 
     /**
      * Check if all fields have been filled out.
      */
     /* eslint-disable react/destructuring-assignment */
     hasValidFormData = () => {
+        /*
         const formFields = this.getFormFields();
         const isFilled = formFields
             // filter out Boolean fields because they will always have a value
             .filter(field => field.type !== 'boolean')
             // check if all remaining fields have been filled out
             .every(field => !!this.state[field.name]);
+        */
+        const formFields = this.getFormFields();
+        //validate required
+        let isValid = this.validateRequired(formFields);
 
-        return isFilled;
+        //validate email
+        isValid = isValid && this.validateEmail(formFields);
+
+        return isValid;
     };
 
     /**
@@ -114,7 +191,7 @@ class FormBuilder extends React.Component {
         const { handleSubmit } = this.props;
 
         if (!this.hasValidFormData()) {
-            return Alert.alert('Input error', 'Please input all required fields.');
+            return Alert.alert('Input error', 'Please resolve all validation errors.');
         }
 
         return handleSubmit(this.state);
@@ -125,34 +202,48 @@ class FormBuilder extends React.Component {
      */
     resetForm = () => {
         Keyboard.dismiss();
-        this.setState(this.initialState);
+        this.setState(_.cloneDeep(this.initialState));
     };
 
     /* eslint-disable react/destructuring-assignment */
     renderTextInput = ({ name, label, inputProps }) => (
-        <FormTextInput
-            {...inputProps}
-            value={this.state[name].toString()}
-            onChangeText={(value) => {
-                this.setState({ [name]: value });
-            }}
-            labelText={label}
-            key={name}
-        />
+        <View style={styles.fieldCont} key={name}>
+            <FormTextInput
+                {...inputProps}
+                value={this.state[name].toString()}
+                onChangeText={(value) => {
+                    this.setState({
+                        [name]: value,
+                        errors: {
+                            ...this.state.errors,
+                            [name]: null
+                        }
+                    });
+                }}
+                labelText={label}
+            />
+            <Text style={styles.error}>
+                {this.state.errors[name]}
+            </Text>
+        </View>
     );
     /* eslint-enable react/destructuring-assignment */
 
     /* eslint-disable react/destructuring-assignment */
     renderBooleanInput = ({ name, label, inputProps }) => (
-        <FormBooleanInput
-            {...inputProps}
-            value={this.state[name]}
-            onValueChange={(value) => {
-                this.setState({ [name]: value });
-            }}
-            labelText={label}
-            key={name}
-        />
+        <View style={styles.fieldCont} key={name}>
+            <FormBooleanInput
+                {...inputProps}
+                value={this.state[name]}
+                onValueChange={(value) => {
+                    this.setState({ [name]: value });
+                }}
+                labelText={label}
+            />
+            <Text style={styles.error}>
+                {this.state.errors[name]}
+            </Text>
+        </View>
     );
     /* eslint-enable react/destructuring-assignment */
 
@@ -160,17 +251,27 @@ class FormBuilder extends React.Component {
     renderPickerInput = ({ name, label, items, inputProps }) => {
         let placeHolder = "Select " + name;
         return (
-            <FormPicker
-                {...inputProps}
-                placeHolder={placeHolder}
-                value={this.state[name]}
-                onValuePicked={(value) => {
-                    this.setState({ [name]: value });
-                }}
-                labelText={label}
-                key={name}
-                pickerItems={items}
-            />
+            <View style={styles.fieldCont} key={name}>
+                <FormPicker
+                    {...inputProps}
+                    placeHolder={placeHolder}
+                    value={this.state[name]}
+                    onValuePicked={(value) => {
+                        this.setState({
+                            [name]: value,
+                            errors: {
+                                ...this.state.errors,
+                                [name]: null
+                            }
+                        });
+                    }}
+                    labelText={label}
+                    pickerItems={items}
+                />
+                <Text style={styles.error}>
+                    {this.state.errors[name]}
+                </Text>
+            </View>
         )
     };
     /* eslint-enable react/destructuring-assignment */
@@ -179,16 +280,26 @@ class FormBuilder extends React.Component {
     renderDatePickerInput = ({ name, label, inputProps }) => {
         let placeHolder = "Select " + name;
         return (
-            <FormDatePicker
-                {...inputProps}
-                placeHolder={placeHolder}
-                value={this.state[name]}
-                onDateSelected={(value) => {
-                    this.setState({ [name]: value });
-                }}
-                labelText={label}
-                key={name}
-            />
+            <View style={styles.fieldCont} key={name}>
+                <FormDatePicker
+                    {...inputProps}
+                    placeHolder={placeHolder}
+                    value={this.state[name]}
+                    onDateSelected={(value) => {
+                        this.setState({
+                            [name]: value,
+                            errors: {
+                                ...this.state.errors,
+                                [name]: null
+                            }
+                        });
+                    }}
+                    labelText={label}
+                />
+                <Text style={styles.error}>
+                    {this.state.errors[name]}
+                </Text>
+            </View>
         )
     };
     /* eslint-enable react/destructuring-assignment */
@@ -196,16 +307,26 @@ class FormBuilder extends React.Component {
     /* eslint-disable react/destructuring-assignment */
     renderCheckBoxInput = ({ name, label, items, inputProps }) => {
         return (
-            <FormCheckBox
-                {...inputProps}
-                value={this.state[name]}
-                onValueChecked={(value) => {
-                    this.setState({ [name]: value });
-                }}
-                labelText={label}
-                key={name}
-                checkItems={items}
-            />
+            <View style={styles.fieldCont} key={name}>
+                <FormCheckBox
+                    {...inputProps}
+                    value={this.state[name]}
+                    onValueChecked={(value) => {
+                        this.setState({
+                            [name]: value,
+                            errors: {
+                                ...this.state.errors,
+                                [name]: null
+                            }
+                        });
+                    }}
+                    labelText={label}
+                    checkItems={items}
+                />
+                <Text style={styles.error}>
+                    {this.state.errors[name]}
+                </Text>
+            </View>
         )
     };
     /* eslint-enable react/destructuring-assignment */
@@ -214,7 +335,7 @@ class FormBuilder extends React.Component {
         const { submitBtnTitle, formFieldsRows, hideReset } = this.props;
 
         return (
-            <View>
+            <View style={styles.container}>
                 {/* eslint-disable react/no-array-index-key */}
                 {formFieldsRows.map((formFieldsRow, i) => (
                     <View style={styles.row} key={`r-${i}`}>
@@ -239,7 +360,7 @@ class FormBuilder extends React.Component {
                 <View style={styles.command}>
                     <FormButton
                         onPress={this.attemptFormSubmission}
-                        disabled={!this.hasValidFormData()}
+                        //disabled={!this.hasValidFormData()}
                         iconName='check'
                         iconType="Feather"
                     >
@@ -272,11 +393,14 @@ FormBuilder.propTypes = {
                 name: PropTypes.string,
                 label: PropTypes.string,
                 type: PropTypes.string,
+                isOptional: PropTypes.bool,
+                isEmail: PropTypes.bool,
                 inputProps: PropTypes.object,
-                defaultValue: PropTypes.any,
+                //defaultValue: PropTypes.any,
             }),
         ),
     ).isRequired,
+    defaultValues: PropTypes.object.isRequired
 };
 
 FormBuilder.defaultProps = {
@@ -284,8 +408,21 @@ FormBuilder.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        paddingBottom: 15,
+    },
     row: {
         flexDirection: 'row',
+        marginBottom: 15,
+    },
+    fieldCont: {
+        flex: 1
+    },
+    error: {
+        paddingTop: 5,
+        paddingHorizontal: 10,
+        color: "red",
+        fontStyle: "italic"
     },
     command: {
         flex: 1,

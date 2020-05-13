@@ -29,6 +29,7 @@ class FormTextInput extends React.Component {
 }
 
 FormTextInput.propTypes = {
+    value: PropTypes.string,
     labelText: PropTypes.string,
     multiline: PropTypes.bool,
 };
@@ -40,8 +41,7 @@ FormTextInput.defaultProps = {
 
 const styles = StyleSheet.create({
     inputWrapper: {
-        flex: 1,
-        marginBottom: 15,
+        flex: 1,        
         paddingHorizontal: 10,
     },
     textInput: {

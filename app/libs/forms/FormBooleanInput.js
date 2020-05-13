@@ -31,7 +31,6 @@ FormBooleanInput.defaultProps = {
 const styles = StyleSheet.create({
     switchWrapper: {
         flex: 1,
-        marginBottom: 15,
         paddingHorizontal: 10,
         flexDirection: 'row',
         alignItems: 'center',
