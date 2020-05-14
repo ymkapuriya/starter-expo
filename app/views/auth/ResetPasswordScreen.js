@@ -53,7 +53,9 @@ class ResetPasswordScreen extends Component {
                         <Col size={80}>
                             <Card style={styles.formCont}>
                                 <CardItem style={styles.form}>
-                                    <ResetPasswordForm onSubmit={this.handleResetPassword}></ResetPasswordForm>
+                                    <ResetPasswordForm
+                                        onSubmit={this.handleResetPassword}
+                                    />
                                 </CardItem>
                             </Card>
                         </Col>

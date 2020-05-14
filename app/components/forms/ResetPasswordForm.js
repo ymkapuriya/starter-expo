@@ -18,7 +18,7 @@ const formFields = [
                 keyboardType: 'email-address',
             },
         },
-    ]    
+    ]
 ];
 
 const defaultValues = {
@@ -29,7 +29,6 @@ export default class ResetPasswordForm extends Component {
 
     constructor(props) {
         super(props)
-        this.hideReset = true;
     }
 
     getFormFields = () => {
@@ -52,26 +51,32 @@ export default class ResetPasswordForm extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={styles.keyboardView}
+            >
+                <ScrollView style={styles.container}>
                     <FormBuilder
                         formFieldsRows={this.getFormFields()}
                         defaultValues={this.getDefaultValues()}
                         handleSubmit={this.handleSubmit}
                         submitBtnTitle="Reset Password"
-                        hideReset={this.hideReset}
+                        hideReset={true}
                     />
-                </KeyboardAvoidingView>
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    keyboardView: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
     container: {
         paddingVertical: 10,
-        flex: 1,
-        color: Colors.bg
     },
     command: {
         flex: 1,

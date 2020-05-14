@@ -21,20 +21,38 @@ class SignUpScreen extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            resetForm: false
+        }
     }
 
     handleSignUp = (user) => {
         this.props.signUp(user);
     }
 
+    clearResetStatus = () => {
+        this.setState({
+            resetForm: false
+        })
+    }
+
+    onFocus = () => {
+        console.log("Signup Screen on Focus")
+        //Form should be cleared every time it is focussed
+        this.setState({
+            resetForm: true
+        })
+    }
+
     componentDidMount() {
         const navigation = this.context;
-        this._focus = navigation.addListener('focus', () => {
-            console.log("Focus");
-        });
+        //bind focus event
+        this._focus = navigation.addListener('focus', this.onFocus);
     }
 
     componentWillUnmount() {
+        //unbind focus event
         this._focus();
     }
 
@@ -69,6 +87,8 @@ class SignUpScreen extends Component {
                                 <CardItem style={styles.form}>
                                     <SignUpForm
                                         onSubmit={this.handleSignUp}
+                                        resetForm={this.state.resetForm}
+                                        resetCallbackScreen={this.clearResetStatus}
                                     />
                                 </CardItem>
                             </Card>

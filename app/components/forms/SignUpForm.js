@@ -118,15 +118,19 @@ const defaultValues = {
     phone: data.subscriber.phone,
     password: data.subscriber.password,
     subscribe: true,
-    //role: ["ROLE_ADMN"],
-    //gender: 'MALE',
-    //birthdate: new Date(),    
+    role: ["ROLE_ADMN"],
+    gender: 'MALE',
+    birthdate: new Date(),
 }
 
 export default class SignUpForm extends Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            resetForm: false
+        }
     }
 
     getFormFields = () => {
@@ -150,6 +154,23 @@ export default class SignUpForm extends Component {
         }
     }
 
+    clearResetStatus = () => {
+        this.setState({
+            resetForm: false
+        })
+        this.props.resetCallbackScreen();
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.resetForm !== prevState.resetForm) {
+            return {
+                resetForm: nextProps.resetForm
+            }
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
             <KeyboardAvoidingView
@@ -162,6 +183,10 @@ export default class SignUpForm extends Component {
                         defaultValues={this.getDefaultValues()}
                         handleSubmit={this.handleSubmit}
                         submitBtnTitle="Sign Up"
+                        resetBtnTitle="Clear"
+                        hideReset={false}
+                        resetForm={this.state.resetForm}
+                        resetCallback={this.clearResetStatus}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -170,14 +195,13 @@ export default class SignUpForm extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {        
-        color: Colors.bg,
-        paddingVertical: 10,
-    },
     keyboardView: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center'
+    },
+    container: {
+        paddingVertical: 10,
     },
     command: {
         flex: 1,

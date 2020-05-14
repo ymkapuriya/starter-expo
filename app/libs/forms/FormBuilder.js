@@ -331,8 +331,20 @@ class FormBuilder extends React.Component {
     };
     /* eslint-enable react/destructuring-assignment */
 
+    componentDidUpdate(prevProps) {
+        if (this.props.resetForm !== prevProps.resetForm) {
+            //in case form reset flag is true
+            if (this.props.resetForm == true) {
+                //reset form
+                this.resetForm();
+                //execute parent reset function
+                this.props.resetCallback();
+            }
+        }
+    }
+
     render() {
-        const { submitBtnTitle, formFieldsRows, hideReset } = this.props;
+        const { submitBtnTitle, resetBtnTitle, formFieldsRows, hideReset } = this.props;
 
         return (
             <View style={styles.container}>
@@ -374,7 +386,7 @@ class FormBuilder extends React.Component {
                             iconName='lock-reset'
                             iconType="MaterialCommunityIcons"
                         >
-                            Reset
+                        {resetBtnTitle}
                         </FormButton>
                     }
 
@@ -384,10 +396,13 @@ class FormBuilder extends React.Component {
     }
 }
 
+/**
+ * Property type
+ */
 FormBuilder.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    submitBtnTitle: PropTypes.string,
-    formFieldsRows: PropTypes.arrayOf(
+    submitBtnTitle: PropTypes.string,           //title of submit button
+    resetBtnTitle: PropTypes.string,            //title of reset button
+    formFieldsRows: PropTypes.arrayOf(          //detail of input fields
         PropTypes.arrayOf(
             PropTypes.shape({
                 name: PropTypes.string,
@@ -400,11 +415,23 @@ FormBuilder.propTypes = {
             }),
         ),
     ).isRequired,
-    defaultValues: PropTypes.object.isRequired
+    hideReset: PropTypes.bool,                  //flag to indicate reset button is to be hidden or not
+    handleSubmit: PropTypes.func.isRequired,    //callback for submit handler
+    defaultValues: PropTypes.object,            //default values for input fields
+    resetForm: PropTypes.bool,                  //flag to indicate form is to be reset or not
+    resetCallback: PropTypes.func,              //callback for form reset
 };
 
+/**
+ * Default values for optional fields
+ */
 FormBuilder.defaultProps = {
     submitBtnTitle: 'Submit',
+    resetBtnTitle: 'Reset',
+    hideReset: false,
+    defaultValues: {},
+    resetForm: false,
+    resetCallback: f => f,
 };
 
 const styles = StyleSheet.create({
