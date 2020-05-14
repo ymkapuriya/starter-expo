@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, H1 } from "native-base";
+import { Container, Grid, Row, Col, Card, CardItem, H1, Text } from "native-base";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
@@ -48,7 +48,7 @@ class ResetPasswordScreen extends Component {
                             </H1>
                         </Col>
                     </Row>
-                    <Row size={80}>
+                    <Row size={70}>
                         <Col size={10}></Col>
                         <Col size={80}>
                             <Card style={styles.formCont}>
@@ -60,6 +60,16 @@ class ResetPasswordScreen extends Component {
                             </Card>
                         </Col>
                         <Col size={10}></Col>
+                    </Row>
+                    <Row size={10}>
+                        <Col style={[styles.titleCont, styles.footerCont]}>
+                            <Text style={styles.footer}>
+                                Developed using
+                            </Text>
+                            <Text style={[styles.footer, styles.highlight]}>
+                                My Form Library
+                            </Text>
+                        </Col>
                     </Row>
                 </Grid>
             </Container>
@@ -82,6 +92,16 @@ const styles = StyleSheet.create({
     formCont: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    footerCont : {
+        justifyContent: "space-evenly"
+    },
+    footer: {
+        justifyContent: 'center',
+        color: Colors.note
+    },
+    highlight: {
+        color: Colors.highlight
     }
 });
 
