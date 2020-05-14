@@ -1,4 +1,4 @@
-import { ToastService as toast } from '_services/common.service';
+import { ToastService as toast } from '_services/toast.service';
 
 /**
  * action types

@@ -1,4 +1,4 @@
-import { authService as auth } from '_services/auth.service';
+import { AuthService as auth } from '_services/auth.service';
 import { ERROR_OCCURRED, SUCCESS_OCCURRED } from '_actions/notify.action';
 
 /**

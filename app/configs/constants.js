@@ -1,7 +1,7 @@
 export const Environment = {
     tokenKey: 'userToken',
     isDev: false,
-    url: "http://0c475528.ngrok.io/api",
+    url: "http://c6c4c3f8.ngrok.io/api",
     isWeb: false,
 }
 
@@ -15,11 +15,16 @@ export const Data = {
         "role": "STCH_FINISHED_RECEIVER",
         "token_type": "Bearer",
     },
-    subscriber : {
-        first_name : "Yogesh",
+    subscriber: {
+        first_name: "Yogesh",
         last_name: "Kapuriya",
         email: "email@email.com",
         password: "password",
         phone: "1234567890"
+    },
+    userProfile: {
+        name: 'Yogesh',
+        role: 'Admin',
+        email: 'email@email.com'
     }
 }

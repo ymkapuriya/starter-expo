@@ -8,7 +8,7 @@ const publicHeaders = {
     'Accept': 'application/json, text/plan'
 };
 
-class AuthService {
+class Auth {
     constructor() {
         // this.url = env.url;
     }
@@ -151,6 +151,13 @@ class AuthService {
             Promise.reject('Error in password reset.');
     }
 
+    /**
+     * Get user profile
+     */
+    async getUserProfile() {
+        //Mock request
+        return Promise.resolve(Data.userProfile);
+    }
 }
 
-export const authService = new AuthService();
+export const AuthService = new Auth();

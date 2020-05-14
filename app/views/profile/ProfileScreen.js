@@ -12,7 +12,12 @@ export default class ProfileScreen extends Component {
     render() {
         return (
             <Container>
-                <AppHeader title="Profile" {...this.props}></AppHeader>
+                <AppHeader
+                    title="Profile"
+                    iconName="account"
+                    iconType="MaterialCommunityIcons"
+                    {...this.props}
+                />
                 <Grid>
                     <Row size={100}>
                         <Col style={styles.content}>
