@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, ImageBackground } from "react-native";
-import { Text, View, Icon, Grid, Row, Col } from "native-base";
+import { StyleSheet } from "react-native";
+import { Icon } from "native-base";
 
 //react navigation
 import {
@@ -18,50 +18,15 @@ import { signOut } from '_actions/auth.action';
 //views
 import DashboardScreen from "_views/dashboard/DashboardScreen";
 import ProfileScreen from "_views/profile/ProfileScreen";
+import BarcodeScreen from "_views/barcode/BarcodeScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
 import { AuthService as auth } from '_services/auth.service';
 import { ToastService as toast } from '_services/toast.service';
 
-function NavHeader(props) {
-    const user = props.loggedUser;
-    return (
-        <View style={styles.header}>
-            <ImageBackground
-                source={
-                    require('_assets/images/header-bg.jpg')
-                }
-                /*
-                source={{
-                    uri: "https://picsum.photos/300/200"
-                }}
-                */
-                style={styles.background}
-                imageStyle={styles.image}
-            >
-                <View style={styles.textContainer}>
-                    <Grid>
-                        <Col style={styles.iconCont}>
-                            <Icon type='MaterialIcons' name="account-box" style={styles.icon} />
-                        </Col>
-                        <Col>
-                            <Row size={2}>
-                                <Text style={styles.title}>{user.name}</Text>
-                            </Row>
-                            <Row size={1}>
-                                <Text style={styles.subtitle}>{user.role}</Text>
-                            </Row>
-                            <Row size={1}>
-                                <Text style={styles.subtitle}>{user.email}</Text>
-                            </Row>
-                        </Col>
-                    </Grid>
-                </View>
-            </ImageBackground>
-        </View>
-    )
-}
+//child components
+import DrawerHeader from "./DrawerHeader";
 
 /**
  * Set title for spcecifed screen name
@@ -73,6 +38,8 @@ function setScreenTitle(screen) {
             return 'App Dashboard'
         case 'Profile':
             return 'User Profile'
+        case 'Barcode':
+            return 'Barcode Scanner Demo'
         default:
             return screen
     }
@@ -94,6 +61,10 @@ function setIconName(screen, focused) {
             type = 'MaterialCommunityIcons'
             name = focused ? 'account' : 'account-outline';
             break;
+        case "Barcode":
+            type = 'MaterialCommunityIcons'
+            name = focused ? 'barcode-scan' : 'barcode';
+            break;
         case "Logout":
             type = 'MaterialCommunityIcons'
             name = focused ? 'logout' : 'logout';
@@ -101,7 +72,6 @@ function setIconName(screen, focused) {
     }
     return { type, name };
 }
-
 
 /**
  * Drawer Navigator Componenet with 
@@ -146,9 +116,7 @@ class ProtectedNavigator extends Component {
     getDrawerContent = (props) => {
         return (
             <>
-                <NavHeader
-                    loggedUser={this.state.loggedUser}
-                />
+                <DrawerHeader loggedUser={this.state.loggedUser} />
                 <DrawerContentScrollView {...props}>
                     <DrawerItemList {...props} />
                     <DrawerItem
@@ -186,44 +154,13 @@ class ProtectedNavigator extends Component {
             >
                 <Drawer.Screen name="Dashboard" component={DashboardScreen} />
                 <Drawer.Screen name="Profile" component={ProfileScreen} />
+                <Drawer.Screen name="Barcode" component={BarcodeScreen} />
             </Drawer.Navigator>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    header: {
-        height: 150,
-    },
-    background: {
-        width: '100%',
-        height: '100%',
-        flex: 1,
-    },
-    image: {
-        resizeMode: "stretch"
-    },
-    textContainer: {
-        opacity: 0.7,
-        backgroundColor: 'black',
-        margin: 20,
-        padding: 10,
-        flex: 1
-    },
-    iconCont: {
-        width: 50,
-    },
-    icon: {
-        fontSize: 40,
-        color: "white"
-    },
-    title: {
-        fontSize: 30,
-        color: "white"
-    },
-    subtitle: {
-        color: "white"
-    },
     link: {
         marginHorizontal: 5,
         borderRadius: 0

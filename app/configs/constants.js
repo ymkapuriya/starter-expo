@@ -1,7 +1,7 @@
 export const Environment = {
     tokenKey: 'userToken',
     isDev: false,
-    url: "http://c6c4c3f8.ngrok.io/api",
+    url: "https://dc5e84bb.ngrok.io/api",
     isWeb: false,
 }
 
