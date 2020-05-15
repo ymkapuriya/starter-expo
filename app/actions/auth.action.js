@@ -118,3 +118,23 @@ export const resetPassword = (email) => (dispatch) => {
             })
         });
 }
+
+export const googleSignIn = (authToken, user) => (dispatch) => {
+    //send login request to server
+    auth.googleSignIn(authToken, user)
+        .then((token) => {
+            dispatch({
+                type: SIGN_IN,
+                token
+            })
+        })
+        .catch((error) => {
+            dispatch({
+                type: ERROR_OCCURRED,
+                payload: {
+                    title: 'Sign-in',
+                    error: error
+                }
+            })
+        });
+}

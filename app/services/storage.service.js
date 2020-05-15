@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { Environment as env, Data as data } from '_configs/constants';
 
-class StorageService {
+export class StorageService {
     constructor() {
         // this.url = env.url;
     }
@@ -11,7 +11,7 @@ class StorageService {
      * @param {string} key 
      * @param {*} value 
      */
-    async store(key, value) {
+    static async store(key, value) {
         if (env.isWeb) {
             //return without storage
             return Promise.resolve(1);
@@ -31,14 +31,14 @@ class StorageService {
      * Retrieve value for key
      * @param {string} key 
      */
-    async retrieve(key) {
+    static async retrieve(key) {
         if (env.isWeb) {
             //retrieve from environment
             if (data[key]) {
                 let value = data[key];
                 return Promise.resolve(value);
             } else {
-                return Promise.reject("Not found " + key);
+                return Promise.reject("Storage : " + key + " not found.");
             }
         }
         try {
@@ -47,7 +47,7 @@ class StorageService {
                 value = JSON.parse(value);
                 return Promise.resolve(value);
             } else {
-                return Promise.reject("Not found " + key);
+                return Promise.reject("Storage : " + key + " not found.");
             }
         } catch (error) {
             console.log("Retrive " + key, error);
@@ -59,7 +59,7 @@ class StorageService {
      * Delete key
      * @param {string} key 
      */
-    async delete(key) {
+    static async delete(key) {
         if (env.isWeb) {
             //return without storage
             return Promise.resolve(1);
@@ -73,5 +73,3 @@ class StorageService {
         }
     }
 }
-
-export const storageService = new StorageService();

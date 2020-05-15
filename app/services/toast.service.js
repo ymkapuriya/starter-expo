@@ -11,21 +11,23 @@ export class ToastService {
         });
     }
 
-    static error(message) {
-        let type = typeof message;
+    static error(error) {
+        let type = typeof error;
+        let message;
         switch (type) {
             case 'string':
                 break;
             case 'object':
                 let messages = [];
-                for (const key in message) {
-                    if (message.hasOwnProperty(key)) {
-                        const m = message[key];
+                for (const key in error) {
+                    if (error.hasOwnProperty(key)) {
+                        const m = error[key];
                         messages.push(m);
                     }
                 }
                 message = messages.join(", ");
             default:
+                message = error.message
                 break;
         }
         Toast.show({

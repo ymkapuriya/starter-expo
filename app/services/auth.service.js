@@ -1,5 +1,5 @@
-import { Environment as env, Data } from '_configs/constants';
-import { storageService as storage } from '_services/storage.service';
+import { Environment as env, Data as DataEnv } from '_configs/constants';
+import { StorageService as storage } from '_services/storage.service';
 
 const publicHeaders = {
     'Content-Type': 'application/json',
@@ -8,7 +8,7 @@ const publicHeaders = {
     'Accept': 'application/json, text/plan'
 };
 
-class Auth {
+export class AuthService {
     constructor() {
         // this.url = env.url;
     }
@@ -19,20 +19,20 @@ class Auth {
      * @param {string} username 
      * @param {string} password 
      */
-    async login(username, password) {
+    static async login(username, password) {
         //prepare data
         let body = {};
         if (env.isDev) {
             body = {
-                phone: Data.username,
-                password: Data.password,
-                device_id: Data.deviceId
+                phone: DataEnv.username,
+                password: DataEnv.password,
+                device_id: DataEnv.deviceId
             }
         } else {
             body = {
                 phone: username,
                 password: password,
-                device_id: Data.deviceId
+                device_id: DataEnv.deviceId
             }
         }
 
@@ -53,7 +53,7 @@ class Auth {
                     await storage.store(env.tokenKey, result);
                     return Promise.resolve(result);
                 } catch (error) {
-                    console.log("Token save", error);
+                    console.log("Token save : ", error);
                     return Promise.reject(error);
                 }
             } else {
@@ -68,7 +68,7 @@ class Auth {
     /**
      * Send logout request to server
      */
-    async logout() {
+    static async logout() {
 
         //get token
         let token = {};
@@ -96,7 +96,7 @@ class Auth {
                     await storage.delete(env.tokenKey);
                     return Promise.resolve(result);
                 } catch (error) {
-                    console.log("Delete token", error);
+                    console.log("Delete token : ", error);
                     return Promise.reject(error);
                 }
             } else {
@@ -111,7 +111,7 @@ class Auth {
     /**
      * Get stored token
      */
-    async getToken() {
+    static async getToken() {
         try {
             let token = await storage.retrieve(env.tokenKey);
             if (token) {
@@ -120,7 +120,7 @@ class Auth {
                 return Promise.reject('Not signed-in');
             }
         } catch (error) {
-            console.log("getToken", error);
+            console.log("getToken : ", error);
             return Promise.reject(error);
         }
     }
@@ -130,9 +130,9 @@ class Auth {
      * 
      * @param {object} subscriber
      */
-    async register(subscriber) {
+    static async register(subscriber) {
         //Mock request
-        console.log("Server", subscriber);
+        console.log("Server : ", subscriber);
         return (Math.floor(Math.random() * 2) == 0) ?
             Promise.resolve('Mock registration successful.') :
             Promise.reject('Error is registration.');
@@ -143,9 +143,9 @@ class Auth {
      * 
      * @param {string} email
      */
-    async resetPassword(email) {
+    static async resetPassword(email) {
         //Mock request
-        console.log("Server", email);
+        console.log("Server : ", email);
         return (Math.floor(Math.random() * 2) == 0) ?
             Promise.resolve('Password reset successful.') :
             Promise.reject('Error in password reset.');
@@ -154,10 +154,30 @@ class Auth {
     /**
      * Get user profile
      */
-    async getUserProfile() {
+    static async getUserProfile() {
         //Mock request
-        return Promise.resolve(Data.userProfile);
+        return Promise.resolve(DataEnv.userProfile);
+    }
+
+    /**
+     * Get token for user authenticated by Google Signin 
+     * @param {string} authToken 
+     * @param {Object} user 
+     */
+    static async googleSignIn(authToken, user) {
+        /**
+         * Send this authtoken and user information to server
+         * Server should send the application token in order to create uniform interface
+         *      i.e. Google sign-in or normal sign-in
+         */
+        const userToken = DataEnv.userToken
+        //store token
+        try {
+            await storage.store(env.tokenKey, userToken);
+            return Promise.resolve(userToken);
+        } catch (error) {
+            console.log("Token save : ", error);
+            return Promise.reject(error);
+        }
     }
 }
-
-export const AuthService = new Auth();

@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SignInScreen from "_views/auth/SignInScreen";
 import SignUpScreen from "_views/auth/SignUpScreen";
 import ResetPasswordScreen from "_views/auth/ResetPasswordScreen";
+import GoogleScreen from "_views/auth/GoogleScreen";
 
 /**
  * Set title for spcecifed screen name
@@ -20,6 +21,8 @@ function setScreenTitle(screen) {
             return 'New User'
         case 'ResetPassword':
             return 'Forgot Password'
+        case 'Google':
+            return 'Google SignIn'
     }
 }
 
@@ -39,6 +42,9 @@ function setIconName(screen, focused) {
             break;
         case "ResetPassword":
             iconName = focused ? 'ios-unlock' : 'ios-unlock';
+            break;
+        case "Google":
+            iconName = focused ? 'logo-google' : 'logo-google';
             break;
     }
     return iconName;
@@ -64,6 +70,7 @@ const PublicNavigator = () => {
             <Tab.Screen name="SignIn" component={SignInScreen} />
             <Tab.Screen name="SignUp" component={SignUpScreen} />
             <Tab.Screen name="ResetPassword" component={ResetPasswordScreen} />
+            <Tab.Screen name="Google" component={GoogleScreen} />
         </Tab.Navigator>
     )
 };
