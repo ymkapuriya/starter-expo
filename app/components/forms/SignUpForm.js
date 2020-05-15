@@ -72,16 +72,11 @@ const formFields = [
     ],
     [
         {
-            name: 'role',
-            label: 'Role',
-            type: 'checkbox',
+            name: 'birthdate',
+            label: 'Birthdate',
+            type: 'date',
             inputProps: {
-                color: 'lightblue'
-            },
-            items: {
-                ROLE_ADMN: 'Admin',
-                ROLE_MNGR: 'Manager',
-                ROLE_OPTR: 'Operator'
+                minimumDate: new Date(2005, 1, 1)
             }
         },
     ],
@@ -101,14 +96,19 @@ const formFields = [
     ],
     [
         {
-            name: 'birthdate',
-            label: 'Birthdate',
-            type: 'date',
+            name: 'role',
+            label: 'Role',
+            type: 'checkbox',
             inputProps: {
-                minimumDate: new Date(2005, 1, 1)
+                color: 'lightblue'
+            },
+            items: {
+                ROLE_ADMN: 'Admin',
+                ROLE_MNGR: 'Manager',
+                ROLE_OPTR: 'Operator'
             }
         },
-    ]
+    ],
 ];
 
 const defaultValues = {

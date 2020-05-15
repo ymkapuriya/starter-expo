@@ -1,8 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet } from 'react-native';
-import { DatePicker, Text, Row, Col } from 'native-base';
+import { View, StyleSheet, Text, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import { UtilityService as utility } from '_services/utility.service';
+
+const PlatformDatePicker = (props) => {
+
+    const [label, setLabel] = useState('')
+    const [display, setDisplay] = useState(false)
+
+    const onChange = (event, date) => {
+        setDisplay(false)
+        const label = utility.dateToString(date, 'DD-MM-YYYY');
+        setLabel(label);
+        props.onChange(event, date);
+    }
+
+    switch (Platform.OS) {
+        case 'ios':
+            return (
+                <DateTimePicker
+                    mode="date"
+                    value={props.value}
+                    onChange={props.onChange}
+                    {...props.inputProps}
+                />
+            )
+        case 'android':
+            return (
+                <>
+                    <TouchableOpacity
+                        style={styles.select}
+                        onPress={() => setDisplay(true)}
+                    >
+                        <Text style={styles.selectedDate}>{label}</Text>
+                        <Text style={styles.selectLabel}>Select</Text>                        
+                    </TouchableOpacity>
+                    {
+                        display &&
+                        <DateTimePicker
+                            mode="date"
+                            value={props.value}
+                            onChange={onChange}
+                            {...props.inputProps}
+                        />
+                    }
+                </>
+            )
+        default:
+            return (<></>);
+    }
+}
 
 /**
  * A component which renders a DatePicker component
@@ -20,7 +70,7 @@ class FormDatePicker extends React.Component {
         }
     }
 
-    setDate = (date) => {
+    setDate = (event, date) => {
         this.setState({
             selected: date
         });
@@ -36,12 +86,9 @@ class FormDatePicker extends React.Component {
                     labelText &&
                     <Text style={styles.label}>{labelText}</Text>
                 }
-                <DatePicker
-                    defaultDate={this.defaultDate}
-                    placeHolderText={this.state.selected ? undefined : placeHolder}
-                    onDateChange={this.setDate}
-                    textStyle={styles.input}
-                    placeHolderTextStyle={styles.input}
+                <PlatformDatePicker
+                    value={this.state.selected}
+                    onChange={this.setDate}
                     {...inputProps}
                 />
             </View>
@@ -68,15 +115,22 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 10,
     },
-    inputCont: {
-        alignItems: "center"
-    },
     label: {
         marginBottom: 5,
         color: 'grey'
     },
-    input: {
-        paddingLeft: 0,
+    select: {        
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    selectLabel: {
+        fontSize: 15,
+        color: 'skyblue'
+    },
+    selectedDate: {
+        fontSize: 15,   
+        paddingStart: 10     
     }
 });
 

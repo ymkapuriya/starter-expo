@@ -121,7 +121,6 @@ class FormBuilder extends React.Component {
     validateEmail = (formFields) => {
         let isValid = true;
         let fieldErrors = this.state.errors;
-        console.log(formFields);
         formFields.filter(field => field.isEmail == true) // filter only email types
             .map((field) => {
                 //get value
