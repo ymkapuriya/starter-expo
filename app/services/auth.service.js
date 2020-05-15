@@ -180,4 +180,26 @@ export class AuthService {
             return Promise.reject(error);
         }
     }
+
+    /**
+     * Get token for user authenticated by Facebook Signin 
+     * @param {string} accessToken 
+     * @param {Object} user 
+     */
+    static async fbSignIn(accessToken, user) {
+        /**
+         * Send this authtoken and user information to server
+         * Server should send the application token in order to create uniform interface
+         *      i.e. Facebook sign-in or normal sign-in
+         */
+        const userToken = DataEnv.userToken
+        //store token
+        try {
+            await storage.store(env.tokenKey, userToken);
+            return Promise.resolve(userToken);
+        } catch (error) {
+            console.log("Token save : ", error);
+            return Promise.reject(error);
+        }
+    }
 }

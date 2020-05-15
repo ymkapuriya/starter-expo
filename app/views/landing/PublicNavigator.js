@@ -8,6 +8,7 @@ import SignInScreen from "_views/auth/SignInScreen";
 import SignUpScreen from "_views/auth/SignUpScreen";
 import ResetPasswordScreen from "_views/auth/ResetPasswordScreen";
 import GoogleScreen from "_views/auth/GoogleScreen";
+import FacebookScreen from "_views/auth/FacebookScreen";
 
 /**
  * Set title for spcecifed screen name
@@ -23,6 +24,8 @@ function setScreenTitle(screen) {
             return 'Forgot Password'
         case 'Google':
             return 'Google SignIn'
+        case 'Facebook':
+            return 'Facebook SignIn'
     }
 }
 
@@ -45,6 +48,9 @@ function setIconName(screen, focused) {
             break;
         case "Google":
             iconName = focused ? 'logo-google' : 'logo-google';
+            break;
+        case "Facebook":
+            iconName = focused ? 'logo-facebook' : 'logo-facebook';
             break;
     }
     return iconName;
@@ -71,6 +77,7 @@ const PublicNavigator = () => {
             <Tab.Screen name="SignUp" component={SignUpScreen} />
             <Tab.Screen name="ResetPassword" component={ResetPasswordScreen} />
             <Tab.Screen name="Google" component={GoogleScreen} />
+            <Tab.Screen name="Facebook" component={FacebookScreen} />
         </Tab.Navigator>
     )
 };

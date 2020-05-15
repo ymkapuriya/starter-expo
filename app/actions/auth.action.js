@@ -132,7 +132,27 @@ export const googleSignIn = (authToken, user) => (dispatch) => {
             dispatch({
                 type: ERROR_OCCURRED,
                 payload: {
-                    title: 'Sign-in',
+                    title: 'Google Sign-in',
+                    error: error
+                }
+            })
+        });
+}
+
+export const fbSignIn = (accessToken, user) => (dispatch) => {
+    //send login request to server
+    auth.fbSignIn(accessToken, user)
+        .then((token) => {
+            dispatch({
+                type: SIGN_IN,
+                token
+            })
+        })
+        .catch((error) => {
+            dispatch({
+                type: ERROR_OCCURRED,
+                payload: {
+                    title: 'Facebook Sign-in',
                     error: error
                 }
             })
