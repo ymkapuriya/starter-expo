@@ -1,6 +1,6 @@
 export const Environment = {
     tokenKey: 'userToken',
-    isDev: false,
+    isDev: true,
     url: "http://379544d7.ngrok.io/api",
     isWeb: false,
 }

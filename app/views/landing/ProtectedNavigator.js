@@ -19,6 +19,7 @@ import { signOut } from '_actions/auth.action';
 import DashboardScreen from "_views/dashboard/DashboardScreen";
 import ProfileScreen from "_views/profile/ProfileScreen";
 import BarcodeScreen from "_views/barcode/BarcodeScreen";
+import MapScreen from "_views/map/MapScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
@@ -40,6 +41,8 @@ function setScreenTitle(screen) {
             return 'User Profile'
         case 'Barcode':
             return 'Barcode Scanner Demo'
+        case 'Map':
+            return 'Google Map Demo'
         default:
             return screen
     }
@@ -64,6 +67,10 @@ function setIconName(screen, focused) {
         case "Barcode":
             type = 'MaterialCommunityIcons'
             name = focused ? 'barcode-scan' : 'barcode';
+            break;
+        case "Map":
+            type = 'MaterialCommunityIcons'
+            name = focused ? 'google-maps' : 'google-maps';
             break;
         case "Logout":
             type = 'MaterialCommunityIcons'
@@ -155,6 +162,7 @@ class ProtectedNavigator extends Component {
                 <Drawer.Screen name="Dashboard" component={DashboardScreen} />
                 <Drawer.Screen name="Profile" component={ProfileScreen} />
                 <Drawer.Screen name="Barcode" component={BarcodeScreen} />
+                <Drawer.Screen name="Map" component={MapScreen} />
             </Drawer.Navigator>
         )
     }

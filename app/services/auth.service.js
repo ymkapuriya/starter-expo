@@ -20,20 +20,18 @@ export class AuthService {
      * @param {string} password 
      */
     static async login(username, password) {
+        
+        //in case of developement mode do not send any request to server
+        if (env.isDev) {
+            return Promise.resolve(DataEnv.userToken);
+        }
+
         //prepare data
         let body = {};
-        if (env.isDev) {
-            body = {
-                phone: DataEnv.username,
-                password: DataEnv.password,
-                device_id: DataEnv.deviceId
-            }
-        } else {
-            body = {
-                phone: username,
-                password: password,
-                device_id: DataEnv.deviceId
-            }
+        body = {
+            phone: username,
+            password: password,
+            device_id: DataEnv.deviceId
         }
 
         //prepare url
@@ -69,6 +67,11 @@ export class AuthService {
      * Send logout request to server
      */
     static async logout() {
+
+        //in case of developement mode do not send any request to server
+        if (env.isDev) {
+            return Promise.resolve(1);
+        }
 
         //get token
         let token = {};

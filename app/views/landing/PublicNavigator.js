@@ -60,7 +60,7 @@ const PublicNavigator = () => {
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator
-            initialRouteName="SignUp"
+            initialRouteName="SignIn"
             screenOptions={({ route }) => ({
                 title: setScreenTitle(route.name),
                 tabBarIcon: ({ focused, color, size }) => {
