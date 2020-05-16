@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "872207307326",
+    "firebase_url": "https://expo-starter.firebaseio.com",
+    "project_id": "expo-starter",
+    "storage_bucket": "expo-starter.appspot.com"
+  },
+  "client": [{
+    "client_info": {
+      "mobilesdk_app_id": "1:872207307326:android:124b73455752176f73776f",
+      "android_client_info": {
+        "package_name": "in.excellence.expo.starter"
+      }
+    },
+    "oauth_client": [{
+      "client_id": "872207307326-8hpeem0gd0jtl9h2hls17qj6i7usnv22.apps.googleusercontent.com",
+      "client_type": 3
+    }],
+    "api_key": [{
+      "current_key": "AIzaSyCyNCxen8wr1Z2bpQv_CmPq4Ur2LVcDRcU"
+    }],
+    "services": {
+      "appinvite_service": {
+        "other_platform_oauth_client": [{
+            "client_id": "872207307326-8hpeem0gd0jtl9h2hls17qj6i7usnv22.apps.googleusercontent.com",
+            "client_type": 3
+          },
+          {
+            "client_id": "872207307326-lbrhb9ja0bro86ika3v88q9isv3rin2p.apps.googleusercontent.com",
+            "client_type": 2,
+            "ios_info": {
+              "bundle_id": "host.exp.exponent"
+            }
+          }
+        ]
+      }
+    }
+  }],
+  "configuration_version": "1"
+}

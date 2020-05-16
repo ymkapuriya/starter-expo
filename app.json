@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-login",
-    "slug": "expo-login",
+    "name": "Excellence Expo Starter",
+    "slug": "es-expo-starter",
     "platforms": [
       "ios",
       "android",
@@ -21,6 +21,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "in.excellence.expo.starter",
+      "versionCode": 1.0,
+      "googleServicesFile": "./google-services.json"
+    },
     "ios": {
       "supportsTablet": true
     }

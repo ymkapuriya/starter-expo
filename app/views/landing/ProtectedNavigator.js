@@ -20,6 +20,7 @@ import DashboardScreen from "_views/dashboard/DashboardScreen";
 import ProfileScreen from "_views/profile/ProfileScreen";
 import BarcodeScreen from "_views/barcode/BarcodeScreen";
 import MapScreen from "_views/map/MapScreen";
+import FirebaseScreen from "_views/notification/FirebaseScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
@@ -43,6 +44,8 @@ function setScreenTitle(screen) {
             return 'Barcode Scanner Demo'
         case 'Map':
             return 'Google Map Demo'
+        case 'Firebase':
+            return 'FCM Push Notifications'
         default:
             return screen
     }
@@ -71,6 +74,10 @@ function setIconName(screen, focused) {
         case "Map":
             type = 'MaterialCommunityIcons'
             name = focused ? 'google-maps' : 'google-maps';
+            break;
+        case "Firebase":
+            type = 'MaterialCommunityIcons'
+            name = focused ? 'firebase' : 'firebase';
             break;
         case "Logout":
             type = 'MaterialCommunityIcons'
@@ -144,7 +151,7 @@ class ProtectedNavigator extends Component {
         const Drawer = createDrawerNavigator();
         return (
             <Drawer.Navigator
-                initialRouteName="Dashboard"
+                initialRouteName="Firebase"
                 hideStatusBar={true}
                 drawerContent={(props) => this.getDrawerContent({ ...props })}
                 drawerContentOptions={{
@@ -163,6 +170,7 @@ class ProtectedNavigator extends Component {
                 <Drawer.Screen name="Profile" component={ProfileScreen} />
                 <Drawer.Screen name="Barcode" component={BarcodeScreen} />
                 <Drawer.Screen name="Map" component={MapScreen} />
+                <Drawer.Screen name="Firebase" component={FirebaseScreen} />
             </Drawer.Navigator>
         )
     }
