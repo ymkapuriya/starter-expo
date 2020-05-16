@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 
 import { Notifications } from 'expo';
 
-import { FCMService as fcm } from '_services/fcm.service.js';
+import { NotificationService as notification } from '_services/notification.service.js';
 import { ToastService as toast } from '_services/toast.service.js';
 
-export default class FCMPush extends Component {
+export default class PushNotification extends Component {
 
     constructor(props) {
         super(props)
@@ -21,12 +21,12 @@ export default class FCMPush extends Component {
 
     registerForPushNotifications = async () => {
         try {
-            let token = await fcm.register();
+            let token = await notification.register();
             console.log("Registration : ", token);
             this.setState({
                 pushToken: token
             });
-            this.props.tokenRegisterd(token);
+            this.props.tokenRegistered(token);
         } catch (error) {
             console.log(error);
             toast.error(error);
@@ -72,7 +72,7 @@ export default class FCMPush extends Component {
         };
 
         try {
-            const response = await fcm.send(message);
+            const response = await notification.send(message);
             toast.success(response);
         } catch (error) {
             toast.error(error);
@@ -89,12 +89,12 @@ export default class FCMPush extends Component {
     }
 }
 
-FCMPush.propTypes = {
+PushNotification.propTypes = {
     tokenRegistered: PropTypes.func,    //registration callback
     onNotification: PropTypes.func      //notification received callback
 };
 
-FCMPush.defaultProps = {
+PushNotification.defaultProps = {
     tokenRegistered: f => f,
     onNotification: f => f,
 };

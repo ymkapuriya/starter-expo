@@ -20,7 +20,7 @@ import DashboardScreen from "_views/dashboard/DashboardScreen";
 import ProfileScreen from "_views/profile/ProfileScreen";
 import BarcodeScreen from "_views/barcode/BarcodeScreen";
 import MapScreen from "_views/map/MapScreen";
-import FirebaseScreen from "_views/notification/FirebaseScreen";
+import PushScreen from "_views/notification/PushScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
@@ -44,8 +44,8 @@ function setScreenTitle(screen) {
             return 'Barcode Scanner Demo'
         case 'Map':
             return 'Google Map Demo'
-        case 'Firebase':
-            return 'FCM Push Notifications'
+        case 'Push':
+            return 'Push Notifications'
         default:
             return screen
     }
@@ -75,9 +75,9 @@ function setIconName(screen, focused) {
             type = 'MaterialCommunityIcons'
             name = focused ? 'google-maps' : 'google-maps';
             break;
-        case "Firebase":
-            type = 'MaterialCommunityIcons'
-            name = focused ? 'firebase' : 'firebase';
+        case "Push":
+            type = 'Ionicons'
+            name = focused ? 'ios-notifications' : 'ios-notifications';
             break;
         case "Logout":
             type = 'MaterialCommunityIcons'
@@ -151,7 +151,7 @@ class ProtectedNavigator extends Component {
         const Drawer = createDrawerNavigator();
         return (
             <Drawer.Navigator
-                initialRouteName="Firebase"
+                initialRouteName="Dashboard"
                 hideStatusBar={true}
                 drawerContent={(props) => this.getDrawerContent({ ...props })}
                 drawerContentOptions={{
@@ -170,7 +170,7 @@ class ProtectedNavigator extends Component {
                 <Drawer.Screen name="Profile" component={ProfileScreen} />
                 <Drawer.Screen name="Barcode" component={BarcodeScreen} />
                 <Drawer.Screen name="Map" component={MapScreen} />
-                <Drawer.Screen name="Firebase" component={FirebaseScreen} />
+                <Drawer.Screen name="Push" component={PushScreen} />
             </Drawer.Navigator>
         )
     }

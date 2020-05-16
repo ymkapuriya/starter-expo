@@ -6,9 +6,9 @@ import Colors from '_styles/colors';
 import AppHeader from '_components/AppHeader';
 
 //library
-import FCMPush from '_libs/notification/FCMPush';
+import PushNotification from '_libs/notification/PushNotification';
 
-export default class FirebaseScreen extends Component {
+export default class PushScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ export default class FirebaseScreen extends Component {
         })
     }
 
-    updateToken = (token) => {
+    tokenRegistered = (token) => {
         this.setState({
             expoToken: token
         })
@@ -44,16 +44,16 @@ export default class FirebaseScreen extends Component {
         return (
             <Container>
                 <AppHeader
-                    title="FCM Push"
-                    iconName="firebase"
-                    iconType="MaterialCommunityIcons"
+                    title="Push"
+                    iconName="ios-notifications"
+                    iconType="Ionicons"
                     {...this.props}
                 />
                 <Grid>
                     <Row size={30}>
                         <Col style={styles.header}>
-                            <H1 style={styles.title}>Firebase Cloud Messaging</H1>
-                            <Text style={styles.title}>Push Notifications</Text>
+                            <H1 style={styles.title}>Push Notifications</H1>
+                            <Text style={styles.title}>Firebase Cloud Messaging</Text>
                             <Button primary rounded onPress={this.initComponent} >
                                 <Text>Load Component</Text>
                             </Button>
@@ -64,7 +64,7 @@ export default class FirebaseScreen extends Component {
                             {this.state.fcmComponent &&
                                 <>
                                     <Text>Expo Token : {this.state.expoToken} </Text>
-                                    <FCMPush
+                                    <PushNotification
                                         tokenRegistered={this.tokenRegistered}
                                         onNotification={this.onNotification}
                                     />
@@ -83,7 +83,6 @@ export default class FirebaseScreen extends Component {
                                     </View>
                                 }
                             </View>
-
                         </Col>
                     </Row>
                     <Row size={20}>

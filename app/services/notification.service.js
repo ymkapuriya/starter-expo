@@ -2,7 +2,7 @@ import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
-export class FCMService {
+export class NotificationService {
 
     /**
      * Register device for push notification
@@ -64,7 +64,7 @@ export class FCMService {
         if (response.ok) {
             return Promise.resolve("Push notification sent.")
         }
-        console.log("FCM Service - send : ", response);
+        console.log("Notification Service - Send : ", response);
         return Promise.reject("Error in sending push notification");
     }
 } 

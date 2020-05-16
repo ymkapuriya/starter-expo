@@ -23,11 +23,12 @@
     ],
     "android": {
       "package": "in.excellence.expo.starter",
-      "versionCode": 1.0,
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
