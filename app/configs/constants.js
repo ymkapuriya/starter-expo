@@ -40,5 +40,9 @@ export const Data = {
             "name": "Yogesh Kapuriya",
             "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GitO93vU3RWwQlF3LGphYC0b-Sj8o0tJw0pAhm1HQ",
         }
+    },
+    firebaseAuth: {
+        email: "email@email.com",
+        password: "simple"
     }
 }

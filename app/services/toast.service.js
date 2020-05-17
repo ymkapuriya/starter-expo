@@ -14,8 +14,10 @@ export class ToastService {
     static error(error) {
         let type = typeof error;
         let message;
+        //console.log(type);
         switch (type) {
             case 'string':
+                message = error;
                 break;
             case 'object':
                 let messages = [];

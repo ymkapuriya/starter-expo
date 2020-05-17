@@ -1,5 +1,5 @@
 import React from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -9,6 +9,7 @@ import SignUpScreen from "_views/auth/SignUpScreen";
 import ResetPasswordScreen from "_views/auth/ResetPasswordScreen";
 import GoogleScreen from "_views/auth/GoogleScreen";
 import FacebookScreen from "_views/auth/FacebookScreen";
+import FirebaseScreen from "_views/auth/FirebaseScreen";
 
 /**
  * Set title for spcecifed screen name
@@ -21,11 +22,13 @@ function setScreenTitle(screen) {
         case 'SignUp':
             return 'New User'
         case 'ResetPassword':
-            return 'Forgot Password'
+            return 'Reset'
         case 'Google':
-            return 'Google SignIn'
+            return 'SignIn'
         case 'Facebook':
-            return 'Facebook SignIn'
+            return 'SignIn'
+        case 'Firebase':
+            return 'Auth'
     }
 }
 
@@ -36,6 +39,7 @@ function setScreenTitle(screen) {
  */
 function setIconName(screen, focused) {
     let iconName;
+    let iconType = 'Ionicons';
     switch (screen) {
         case "SignIn":
             iconName = focused ? 'ios-log-in' : 'ios-log-in';
@@ -52,21 +56,30 @@ function setIconName(screen, focused) {
         case "Facebook":
             iconName = focused ? 'logo-facebook' : 'logo-facebook';
             break;
+        case "Firebase":
+            iconType = 'MaterialCommunityIcons';
+            iconName = focused ? 'firebase' : 'firebase';
+            break;
     }
-    return iconName;
+    return { iconName, iconType };
 }
 
 const PublicNavigator = () => {
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator
-            initialRouteName="SignIn"
+            initialRouteName="Firebase"
             screenOptions={({ route }) => ({
                 title: setScreenTitle(route.name),
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconName = setIconName(route.name, focused);
+                    let { iconName, iconType } = setIconName(route.name, focused);
                     // You can return any component that you like here!
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    switch (iconType) {
+                        case 'Ionicons':
+                            return <Ionicons name={iconName} size={size} color={color} />;
+                        case 'MaterialCommunityIcons':
+                            return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+                    }
                 },
             })}
             tabBarOptions={{
@@ -78,6 +91,7 @@ const PublicNavigator = () => {
             <Tab.Screen name="ResetPassword" component={ResetPasswordScreen} />
             <Tab.Screen name="Google" component={GoogleScreen} />
             <Tab.Screen name="Facebook" component={FacebookScreen} />
+            <Tab.Screen name="Firebase" component={FirebaseScreen} />
         </Tab.Navigator>
     )
 };
