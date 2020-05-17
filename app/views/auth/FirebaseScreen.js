@@ -8,6 +8,9 @@ import Colors from '_styles/colors';
 //libs
 import FirebaseSignIn from '_libs/firebase/FirebaseSignIn';
 import FirebaseSignUp from '_libs/firebase/FirebaseSignUp';
+import FirebasePhone from '_libs/firebase/FirebasePhone';
+
+//services
 import { FirebaseService as firebase } from '_services/firebase.service';
 import { ToastService as toast } from '_services/toast.service'
 
@@ -22,18 +25,26 @@ export default class FirebaseScreen extends Component {
         }
     }
 
-    handleSignUp = (newUser) => {
-        console.log("Firebase SignUp");
+    emailSignUp = (newUser) => {
+        console.log("Firebase Email SignUp");
         console.log("User", newUser);
+        this.setState({
+            isSignedIn: true,
+            loggedUser: signedUser
+        })
     }
 
-    handleSignIn = (signedUser) => {
-        console.log("Firebase Signin");
+    emailSignIn = (signedUser) => {
+        console.log("Firebase Email Signin");
         console.log("User", signedUser);
         this.setState({
             isSignedIn: true,
             loggedUser: signedUser
         })
+    }
+
+    phoneSignIn = () => {
+        console.log("Firebase Phone Signin Successful");
     }
 
     handleSignOut = async () => {
@@ -54,7 +65,7 @@ export default class FirebaseScreen extends Component {
         return (
             <>
                 <Grid>
-                    <Row size={20}>
+                    <Row size={10}>
                         <View style={styles.titleCont}>
                             <H1 style={styles.title}>
                                 Firebase Authentication
@@ -90,8 +101,7 @@ export default class FirebaseScreen extends Component {
                                                 :
                                                 <CardItem>
                                                     <FirebaseSignIn
-                                                        onSignIn={this.handleSignIn}
-                                                        onSignOut={this.handleSignOut}
+                                                        onSignIn={this.emailSignIn}
                                                         key="form-signin"
                                                     />
                                                 </CardItem>
@@ -105,8 +115,21 @@ export default class FirebaseScreen extends Component {
                                             </CardItem>
                                             <CardItem>
                                                 <FirebaseSignUp
-                                                    onSignUp={this.handleSignUp}
+                                                    onSignUp={this.emailSignUp}
                                                     key="form-signup"
+                                                />
+                                            </CardItem>
+                                        </Card>
+                                    </View>
+                                    <View style={styles.page} key="3">
+                                        <Card style={styles.card}>
+                                            <CardItem header>
+                                                <H1>Phone Auth!</H1>
+                                            </CardItem>
+                                            <CardItem>
+                                                <FirebasePhone
+                                                    onSignIn={this.phoneSignIn}
+                                                    key="form-phone"
                                                 />
                                             </CardItem>
                                         </Card>
@@ -116,7 +139,7 @@ export default class FirebaseScreen extends Component {
                         </Col>
                         <Col size={15}></Col>
                     </Row>
-                    <Row size={10}>
+                    <Row size={20}>
                         <View style={[styles.titleCont, styles.footerCont]}>
                             <Text style={styles.footer}>
                                 Developed using
@@ -126,6 +149,12 @@ export default class FirebaseScreen extends Component {
                             </Text>
                             <Text style={styles.footer}>
                                 https://docs.expo.io/guides/using-firebase/
+                            </Text>
+                            <Text style={styles.footer}>
+                                https://docs.expo.io/versions/latest/sdk/firebase-recaptcha/
+                            </Text>
+                            <Text style={styles.footer}>
+                                https://firebase.google.com/docs/auth/web/start
                             </Text>
                         </View>
                     </Row>
@@ -144,7 +173,7 @@ const styles = StyleSheet.create({
     },
     titleCont: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         alignItems: 'center',
     },
     title: {

@@ -6,8 +6,17 @@ import { FIREBASE_CONFIGS } from '_libs/firebase/config';
 class Firebase {
 
     constructor() {
-        firebase.initializeApp(FIREBASE_CONFIGS)
+        firebase.initializeApp(FIREBASE_CONFIGS);
+        this.firebase = firebase;
+        this.configs = firebase.app().options;
         this.auth = firebase.auth();
+    }
+
+    /**
+     * Return firebase configs
+     */
+    getConfig = () => {
+        return this.configs;
     }
 
     /**
@@ -91,6 +100,45 @@ class Firebase {
             return Promise.resolve("You are successfully signed out.");
         } catch (error) {
             return Promise.reject(error.toString(error))
+        }
+    }
+
+    /**
+     * Send verification code on phone number using recapthac verifier
+     * 
+     * @param {string} phoneNumber 
+     * @param {object} recaptchaVerifier 
+     */
+    async verifyPhone(phoneNumber, recaptchaVerifier) {
+        try {
+            const phoneProvider = new this.firebase.auth.PhoneAuthProvider()
+            const verificationId = await phoneProvider.verifyPhoneNumber(
+                phoneNumber,
+                recaptchaVerifier.current
+            );
+            return Promise.resolve(verificationId);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error.message);
+        }
+    }
+
+    /**
+     * Confirm verification code against verification id
+     * 
+     * @param {string} verificationId 
+     * @param {string} verificationCode 
+     */
+    async confirmPhone(verificationId, verificationCode) {
+        try {
+            const credentials = this.firebase.auth.PhoneAuthProvider.credential(
+                verificationId,
+                verificationCode
+            )
+            this.auth.signInWithCredential(credentials);
+            return Promise.resolve(1);
+        } catch (error) {
+            return Promise.reject(error.message);
         }
     }
 }

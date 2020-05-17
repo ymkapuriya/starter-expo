@@ -1,5 +1,6 @@
 
 export class ValidationService {
+
     /**
      * Check supplied value is valid email address or not
      */
@@ -12,5 +13,23 @@ export class ValidationService {
          */
         var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailPattern.test(value);
+    }
+
+    /**
+     * Check supplied value is mobile number or not
+     */
+    static isMobileNo = (value, withCountry = false) => {
+        /**
+         * ([+]?\d{1,2}[-\s]?)(\d{3}[-\s]?){2}\d{4} --> +91 999 999 9999
+         * ([+]?\d{1,2}[-\s]?)(\d{5}[-\s]?\d{5}) --> +91 99999 99999
+         * (\d{5}[-\s]?\d{5}) --> 99999 99999
+         */
+        let pattern;
+        if (withCountry) {
+            pattern = /^([+]?\d{1,2}[-\s]?)(\d{5}[-\s]?\d{5})$/;
+        } else {
+            pattern = /^(\d{5}[-\s]?\d{5})$/;
+        }
+        return pattern.test(value);
     }
 }

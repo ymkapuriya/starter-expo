@@ -13,7 +13,7 @@ import FormCheckBox from './FormCheckBox';
 
 import _ from 'lodash';
 
-import { ValidationService as vs } from '_services/validation.service';
+import { ValidationService as validation } from '_services/validation.service';
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -125,8 +125,32 @@ class FormBuilder extends React.Component {
             .map((field) => {
                 //get value
                 const value = this.state[field.name];
-                if (!vs.isEmail(value)) {
+                if (!validation.isEmail(value)) {
                     fieldErrors[field.name] = "Not a valid email address.";
+                    isValid = false;
+                }
+            });
+        if (!isValid) {
+            this.setState({
+                errors: fieldErrors
+            })
+        }
+        return isValid;
+    }
+
+    /**
+     * Validate all phone fields
+     */
+    validatePhone = (formFields) => {
+        let isValid = true;
+        let fieldErrors = this.state.errors;
+        formFields.filter(field => field.isMobile == true) // filter only phone types
+            .map((field) => {
+                //get value
+                const value = this.state[field.name];
+                if (!validation.isMobileNo(value, field.withCountry)) {
+                    const format = field.withCountry === true ? "+99 99999 99999" : "99999 99999";
+                    fieldErrors[field.name] = "Valid format : " + format;
                     isValid = false;
                 }
             });
@@ -157,6 +181,9 @@ class FormBuilder extends React.Component {
 
         //validate email
         isValid = isValid && this.validateEmail(formFields);
+
+        //validate mobile
+        isValid = isValid && this.validatePhone(formFields);
 
         return isValid;
     };
@@ -385,7 +412,7 @@ class FormBuilder extends React.Component {
                             iconName='lock-reset'
                             iconType="MaterialCommunityIcons"
                         >
-                        {resetBtnTitle}
+                            {resetBtnTitle}
                         </FormButton>
                     }
 
@@ -404,11 +431,13 @@ FormBuilder.propTypes = {
     formFieldsRows: PropTypes.arrayOf(          //detail of input fields
         PropTypes.arrayOf(
             PropTypes.shape({
-                name: PropTypes.string,
-                label: PropTypes.string,
+                name: PropTypes.string.isRequired,
+                label: PropTypes.string.isRequired,
                 type: PropTypes.string,
                 isOptional: PropTypes.bool,
                 isEmail: PropTypes.bool,
+                isMobile: PropTypes.bool,
+                withCountry: PropTypes.bool,
                 inputProps: PropTypes.object,
                 //defaultValue: PropTypes.any,
             }),

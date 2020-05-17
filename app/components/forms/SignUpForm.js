@@ -45,11 +45,14 @@ const formFields = [
             name: 'phone',
             label: 'Mobile No',
             type: 'text',
+            isMobile: true,
+            withCountry: false,
             inputProps: {
                 autoCorrect: false,
                 autoCapitalize: 'none',
                 keyboardType: 'phone-pad',
-                maxLength: 10
+                maxLength: 10,
+                placeholder: "99999 99999"
             },
         },
     ],

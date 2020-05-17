@@ -35,7 +35,7 @@ export class ToastService {
         Toast.show({
             text: message,
             buttonText: "Ok",
-            duration: 3000,
+            duration: 5000,
             style: {
                 backgroundColor: Colors.errorBackground
             }

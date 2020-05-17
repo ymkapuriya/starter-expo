@@ -111,6 +111,15 @@ export default class MapScreen extends Component {
                                     <Text style={[styles.footer, styles.highlight]}>
                                         react-native-maps
                                     </Text>
+                                    <Text style={styles.footer}>
+                                        https://docs.expo.io/versions/v37.0.0/sdk/map-view/
+                                    </Text>
+                                    <Text style={[styles.footer, styles.highlight]}>
+                                        expo-location
+                                    </Text>
+                                    <Text style={styles.footer}>
+                                        https://docs.expo.io/versions/v37.0.0/sdk/location/
+                                    </Text>
                                 </View>
                             }
                         </Col>

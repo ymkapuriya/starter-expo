@@ -43,6 +43,7 @@ export const Data = {
     },
     firebaseAuth: {
         email: "email@email.com",
-        password: "simple"
+        password: "simple",
+        phone: "9925699877"
     }
 }

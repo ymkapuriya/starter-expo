@@ -68,7 +68,7 @@ const PublicNavigator = () => {
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator
-            initialRouteName="Firebase"
+            initialRouteName="SignIn"
             screenOptions={({ route }) => ({
                 title: setScreenTitle(route.name),
                 tabBarIcon: ({ focused, color, size }) => {

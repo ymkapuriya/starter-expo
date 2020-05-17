@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Button, Text } from 'react-native';
+import { ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Data as EnvData } from '_configs/constants';
 
@@ -65,7 +65,7 @@ export default class FirebaseSignIn extends Component {
         console.log("Sign In : ", data);
         try {
             const user = await firebase.emailSignIn(data.email, data.password, data.is_verified);
-            toast.success("User signed-up with id : " + user.uid);            
+            toast.success("User signed-up with id : " + user.uid);
             this.props.onSignIn(user);
         } catch (error) {
             toast.error(error);
