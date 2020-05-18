@@ -17,7 +17,7 @@ import { ValidationService as validation } from '_services/validation.service';
  * A component which renders a form based on a given list of fields.
  */
 class FormBuilder extends React.Component {
-    /* eslint-disable no-param-reassign */
+
     constructor(props) {
         super(props);
 
@@ -48,7 +48,6 @@ class FormBuilder extends React.Component {
         this.state = _.cloneDeep(this.initialState);
 
     }
-    /* eslint-enable no-param-reassign */
 
     /**
      * Extract our form fields from each row
@@ -163,16 +162,7 @@ class FormBuilder extends React.Component {
     /**
      * Check if all fields have been filled out.
      */
-    /* eslint-disable react/destructuring-assignment */
     hasValidFormData = () => {
-        /*
-        const formFields = this.getFormFields();
-        const isFilled = formFields
-            // filter out Boolean fields because they will always have a value
-            .filter(field => field.type !== 'boolean')
-            // check if all remaining fields have been filled out
-            .every(field => !!this.state[field.name]);
-        */
         const formFields = this.getFormFields();
 
         //validate required
@@ -186,6 +176,20 @@ class FormBuilder extends React.Component {
 
         return isValid;
     };
+
+    /**
+     * Check if all required fields have been filled out
+     */
+    couldBeSubmitted = () => {
+        const formFields = this.getFormFields();
+        const isFilled = formFields
+            // filter out Boolean fields because they will always have a value
+            .filter(field => field.type !== 'boolean')
+            .filter(field => !field.isOptional)
+            // check if all remaining fields have been filled out
+            .every(field => !!this.state[field.name]);
+        return isFilled;
+    }
 
     /**
      * Check if at least one field has been filled out.
@@ -206,7 +210,6 @@ class FormBuilder extends React.Component {
 
         return isDirty;
     };
-    /* eslint-enable react/destructuring-assignment */
 
     /**
      * Attempt to submit the form if all fields have been
@@ -230,7 +233,6 @@ class FormBuilder extends React.Component {
         this.setState(_.cloneDeep(this.initialState));
     };
 
-    /* eslint-disable react/destructuring-assignment */
     renderTextInput = ({ name, label, inputProps }) => (
         <View style={styles.fieldCont} key={name}>
             <FormTextInput
@@ -252,9 +254,7 @@ class FormBuilder extends React.Component {
             </Text>
         </View>
     );
-    /* eslint-enable react/destructuring-assignment */
 
-    /* eslint-disable react/destructuring-assignment */
     renderBooleanInput = ({ name, label, inputProps }) => (
         <View style={styles.fieldCont} key={name}>
             <FormBooleanInput
@@ -270,9 +270,7 @@ class FormBuilder extends React.Component {
             </Text>
         </View>
     );
-    /* eslint-enable react/destructuring-assignment */
 
-    /* eslint-disable react/destructuring-assignment */
     renderPickerInput = ({ name, label, items, inputProps }) => {
         let placeHolder = "Select " + name;
         return (
@@ -299,9 +297,7 @@ class FormBuilder extends React.Component {
             </View>
         )
     };
-    /* eslint-enable react/destructuring-assignment */
 
-    /* eslint-disable react/destructuring-assignment */
     renderDatePickerInput = ({ name, label, inputProps }) => {
         let placeHolder = "Select " + name;
         return (
@@ -327,9 +323,7 @@ class FormBuilder extends React.Component {
             </View>
         )
     };
-    /* eslint-enable react/destructuring-assignment */
 
-    /* eslint-disable react/destructuring-assignment */
     renderCheckBoxInput = ({ name, label, items, inputProps }) => {
         return (
             <View style={styles.fieldCont} key={name}>
@@ -354,7 +348,6 @@ class FormBuilder extends React.Component {
             </View>
         )
     };
-    /* eslint-enable react/destructuring-assignment */
 
     componentDidUpdate(prevProps) {
         if (this.props.resetForm !== prevProps.resetForm) {
@@ -373,7 +366,6 @@ class FormBuilder extends React.Component {
 
         return (
             <View style={styles.container}>
-                {/* eslint-disable react/no-array-index-key */}
                 {formFieldsRows.map((formFieldsRow, i) => (
                     <View style={styles.row} key={`r-${i}`}>
                         {formFieldsRow.map((field) => {
@@ -392,12 +384,11 @@ class FormBuilder extends React.Component {
                         })}
                     </View>
                 ))}
-                {/* eslint-enable react/no-array-index-key */}
 
                 <View style={styles.command}>
                     <FormButton
                         onPress={this.attemptFormSubmission}
-                        //disabled={!this.hasValidFormData()}
+                        disabled={!this.couldBeSubmitted()}
                         iconName='check'
                         iconType="feather"
                     >
@@ -439,7 +430,6 @@ FormBuilder.propTypes = {
                 isMobile: PropTypes.bool,
                 withCountry: PropTypes.bool,
                 inputProps: PropTypes.object,
-                //defaultValue: PropTypes.any,
             }),
         ),
     ).isRequired,

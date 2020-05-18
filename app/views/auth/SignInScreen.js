@@ -61,8 +61,8 @@ class SignInScreen extends Component {
                             Developed using
                             </Text>
                         <Text style={[styles.footer, styles.highlight]}>
-                            tcomb-form-native
-                            </Text>
+                            My Form Library
+                        </Text>
                     </Col>
                 </Row>
             </Grid>

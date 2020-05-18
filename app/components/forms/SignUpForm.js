@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import { StyleSheet, KeyboardAvoidingView, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import Colors from '_styles/colors';
-import { Data as data } from '_configs/constants';
+import { Data as EnvData } from '_configs/constants';
 
 import { FormBuilder } from '_libs/forms';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const formFields = [
     [
@@ -115,11 +113,11 @@ const formFields = [
 ];
 
 const defaultValues = {
-    firstName: data.subscriber.first_name,
-    lastName: data.subscriber.last_name,
-    email: data.subscriber.email,
-    phone: data.subscriber.phone,
-    password: data.subscriber.password,
+    firstName: EnvData.subscriber.first_name,
+    lastName: EnvData.subscriber.last_name,
+    email: EnvData.subscriber.email,
+    phone: EnvData.subscriber.phone,
+    password: EnvData.subscriber.password,
     subscribe: true,
     role: ["ROLE_ADMN"],
     gender: 'MALE',
@@ -181,7 +179,7 @@ export default class SignUpForm extends Component {
                 defaultValues={this.getDefaultValues()}
                 handleSubmit={this.handleSubmit}
                 submitBtnTitle="Sign Up"
-                resetBtnTitle="Clear"
+                resetBtnTitle="Reset"
                 hideReset={false}
                 resetForm={this.state.resetForm}
                 resetCallback={this.clearResetStatus}

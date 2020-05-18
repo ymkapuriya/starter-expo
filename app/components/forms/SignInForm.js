@@ -1,38 +1,41 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements';
+import { ScrollView, StyleSheet } from 'react-native';
 
-import t from 'tcomb-form-native';
+import { Data as EnvData } from '_configs/constants';
+import { FormBuilder } from '_libs/forms';
 
-import Colors from '_styles/colors';
-import { Data as data } from '_configs/constants';
-
-const Form = t.form.Form;
-
-const SignIn = t.struct({
-    username: t.String,
-    password: t.String
-});
-
-const options = {
-    auto: 'placeholders',
-    fields: {
-        username: {
-            label: "Enter username",
-            error: "Username is required, usually it is 10 digit mobile number",
-            keyboardType: "number-pad",
+const formFields = [
+    [
+        {
+            name: 'username',
+            label: 'Username',
+            type: 'text',
+            isMobile: true,
+            withCountry: false,
+            inputProps: {
+                autoCorrect: false,
+                autoCapitalize: 'none',
+                keyboardType: 'phone-pad',
+                maxLength: 10,
+                placeholder: "99999 99999"
+            },
         },
-        password: {
-            label: "Enter password",
-            error: "Password is required.",
-            secureTextEntry: true
-        }
-    }
-}
+    ],
+    [
+        {
+            name: 'password',
+            label: 'Password',
+            type: 'text',
+            inputProps: {
+                secureTextEntry: true,
+            },
+        },
+    ],
+];
 
 const defaultValues = {
-    username: data.username,
-    password: data.password
+    username: EnvData.username,
+    password: EnvData.password
 }
 
 export default class SignInForm extends Component {
@@ -40,60 +43,54 @@ export default class SignInForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: defaultValues
+            resetForm: false
         }
     }
 
-    onChange = (value) => {
-        this.setState({ value: value });
+    getFormFields = () => {
+        const fields = formFields;
+        return fields;
     }
 
-    handleSubmit = () => {
-        const data = this._form.getValue(); // use that ref to get the form value
+    getDefaultValues = () => {
+        const defaults = defaultValues;
+        return defaults;
+    }
+
+    handleSubmit = (state) => {
+        const data = state;
         console.log("SignIn Data", data);
         if (data) {
             this.props.onSubmit(data);
         }
     }
 
-    resetForm = () => {
-        // clear content from all textbox
-        this.setState({ value: defaultValues });
+    clearResetStatus = () => {
+        this.setState({
+            resetForm: false
+        })
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Form
-                    ref={f => this._form = f}
-                    type={SignIn}
-                    value={this.state.value}
-                    options={options}
-                    onChange={this.onChange}
+            <ScrollView style={styles.container}>
+                <FormBuilder
+                    formFieldsRows={this.getFormFields()}
+                    defaultValues={this.getDefaultValues()}
+                    handleSubmit={this.handleSubmit}
+                    submitBtnTitle="Login"
+                    resetBtnTitle="Reset"
+                    hideReset={false}
+                    resetForm={this.state.resetForm}
+                    resetCallback={this.clearResetStatus}
                 />
-                <View style={styles.command}>
-                    <Button
-                        title="Login"
-                        onPress={this.handleSubmit}
-                    >
-                    </Button>
-                    <Button
-                        title="Reset"
-                        type="outline"
-                        onPress={this.resetForm}
-                    />
-                </View>
-            </View>
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10
-    },
-    command: {
-        flexDirection: "row",
-        justifyContent: "space-between"
+        paddingVertical: 10,
     }
 });
