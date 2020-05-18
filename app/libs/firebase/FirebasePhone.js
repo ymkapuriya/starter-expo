@@ -20,7 +20,7 @@ const verifyFields = [
             isMobile: true,
             withCountry: true,
             inputProps: {
-                autoFocus: true,
+                //autoFocus: true,
                 autoCompleteType: "tel",
                 keyboardType: "phone-pad",
                 textContentType: "telephoneNumber",
@@ -126,7 +126,7 @@ export default class FirebasePhone extends Component {
 
 const styles = StyleSheet.create({
     keyboardView: {
-        flex: 1,
+        //flex: 1,
         flexDirection: 'column',
         justifyContent: 'center'
     },

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Vibration } from "react-native";
-import { Container, Grid, Row, Col, H1, Button, Text } from "native-base";
+import { Text, Button } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import Colors from '_styles/colors';
 import AppHeader from '_components/AppHeader';
@@ -42,21 +43,22 @@ export default class PushScreen extends Component {
 
     render() {
         return (
-            <Container>
+            <>
                 <AppHeader
                     title="Push"
                     iconName="ios-notifications"
-                    iconType="Ionicons"
+                    iconType="ionicon"
                     {...this.props}
                 />
                 <Grid>
                     <Row size={30}>
                         <Col style={styles.header}>
-                            <H1 style={styles.title}>Push Notifications</H1>
+                            <Text h4 h4Style={styles.title}>Push Notifications</Text>
                             <Text style={styles.title}>Firebase Cloud Messaging</Text>
-                            <Button primary rounded onPress={this.initComponent} >
-                                <Text>Load Component</Text>
-                            </Button>
+                            <Button
+                                title="Load Component"
+                                onPress={this.initComponent}
+                            />
                         </Col>
                     </Row>
                     <Row size={20}>
@@ -102,7 +104,7 @@ export default class PushScreen extends Component {
                         </Col>
                     </Row>
                 </Grid>
-            </Container>
+            </>
         )
     }
 }

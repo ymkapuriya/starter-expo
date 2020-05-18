@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button } from 'react-native-elements';
 
 import { GoogleService as google } from '_services/google.service';
 
@@ -54,43 +54,26 @@ export default class GoogleSignIn extends Component {
     render() {
         if (!this.state.signedIn) {
             return (
-                <TouchableOpacity
+                <Button
+                    title="Sign In"
                     onPress={this.handleSignIn}
-                    style={styles.button}
-                >
-                    <Text style={styles.text}>Sign In</Text>
-                </TouchableOpacity>
+                />
             )
         }
         return (
             <View>
-                <TouchableOpacity
+                <Button
+                    title="Sign Out"
                     onPress={this.handleSignOut}
-                    style={[styles.button, styles.signOut]}
-                >
-                    <Text style={styles.text}>Sign Out</Text>
-                </TouchableOpacity>
+                    buttonStyle={[styles.signOut]}
+                />
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    formCont: {
-        justifyContent: "space-around",
-        alignItems: 'center',
-    },
-    button: {
-        padding: 10,
-        backgroundColor: "violet",
-        alignItems: "center"
-    },
     signOut: {
         backgroundColor: "yellowgreen",
     },
-    text: {
-        color: "white",
-        fontWeight: "600",
-        fontSize: 20,
-    }
 });

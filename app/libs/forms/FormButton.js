@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import { Button, Text, Icon } from 'native-base';
+import { Button, Icon } from 'react-native-elements';
 
 /**
  * A stateless function component which renders a button.
@@ -10,18 +10,15 @@ import { Button, Text, Icon } from 'native-base';
  */
 const FormButton = (props) => {
     const { children, onPress, disabled, iconName, iconType } = props;
-
+    
     return (
         <Button
-            bordered
-            iconLeft
-            style={[styles.button, disabled && styles.buttonDisabled]}
+            type={props.type ? props.type : "solid"}
+            title={children}
+            buttonStyle={[styles.button, disabled && styles.buttonDisabled]}
             onPress={onPress}
             disabled={disabled}
-        >
-            <Icon name={iconName} type={iconType}></Icon>
-            <Text style={styles.buttonText}>{children}</Text>
-        </Button>
+        />
     );
 };
 

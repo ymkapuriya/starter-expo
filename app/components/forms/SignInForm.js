@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import t from 'tcomb-form-native';
-import { Button, Text, Icon } from 'native-base';
 
 import Colors from '_styles/colors';
 import { Data as data } from '_configs/constants';
@@ -72,14 +72,16 @@ export default class SignInForm extends Component {
                     onChange={this.onChange}
                 />
                 <View style={styles.command}>
-                    <Button bordered iconLeft onPress={this.handleSubmit}>
-                        <Icon name="log-in"></Icon>
-                        <Text>Login</Text>
+                    <Button
+                        title="Login"
+                        onPress={this.handleSubmit}
+                    >
                     </Button>
-                    <Button bordered iconLeft onPress={this.resetForm}>
-                        <Icon name="close"></Icon>
-                        <Text>Reset</Text>
-                    </Button>
+                    <Button
+                        title="Reset"
+                        type="outline"
+                        onPress={this.resetForm}
+                    />
                 </View>
             </View>
         )
@@ -88,14 +90,10 @@ export default class SignInForm extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "space-between",
-        padding: 10,
-        flex: 1,
-        color: Colors.bg
+        paddingHorizontal: 10
     },
     command: {
-        flex: 1,
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
     }
 });

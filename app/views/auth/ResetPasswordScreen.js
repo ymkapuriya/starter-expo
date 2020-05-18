@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, H1, Text } from "native-base";
+import { Text } from 'react-native-elements';
+
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
@@ -14,6 +16,7 @@ import { notifyError, notifySuccess } from '_actions/notify.action';
 
 // Components
 import { ResetPasswordForm } from '_forms';
+import { Card } from '_components/elements';
 
 class ResetPasswordScreen extends Component {
 
@@ -39,40 +42,36 @@ class ResetPasswordScreen extends Component {
 
     render() {
         return (
-            <Container style={styles.background}>
-                <Grid>
-                    <Row size={20}>
-                        <Col style={styles.titleCont}>
-                            <H1 style={styles.title}>
-                                Reset Password!
-                            </H1>
-                        </Col>
-                    </Row>
-                    <Row size={70}>
-                        <Col size={10}></Col>
-                        <Col size={80}>
-                            <Card style={styles.formCont}>
-                                <CardItem style={styles.form}>
-                                    <ResetPasswordForm
-                                        onSubmit={this.handleResetPassword}
-                                    />
-                                </CardItem>
-                            </Card>
-                        </Col>
-                        <Col size={10}></Col>
-                    </Row>
-                    <Row size={10}>
-                        <Col style={[styles.titleCont, styles.footerCont]}>
-                            <Text style={styles.footer}>
-                                Developed using
+            <Grid style={styles.background}>
+                <Row size={20}>
+                    <Col style={styles.titleCont}>
+                        <Text h4 h4Style={styles.title}>
+                            Reset Password!
                             </Text>
-                            <Text style={[styles.footer, styles.highlight]}>
-                                My Form Library
+                    </Col>
+                </Row>
+                <Row size={70}>
+                    <Col size={10}></Col>
+                    <Col size={80}>
+                        <Card title="Enter Detail">
+                            <ResetPasswordForm
+                                onSubmit={this.handleResetPassword}
+                            />
+                        </Card>
+                    </Col>
+                    <Col size={10}></Col>
+                </Row>
+                <Row size={10}>
+                    <Col style={[styles.titleCont, styles.footerCont]}>
+                        <Text style={styles.footer}>
+                            Developed using
                             </Text>
-                        </Col>
-                    </Row>
-                </Grid>
-            </Container>
+                        <Text style={[styles.footer, styles.highlight]}>
+                            My Form Library
+                            </Text>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
@@ -89,11 +88,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color: Colors.fg
     },
-    formCont: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    footerCont : {
+    footerCont: {
         justifyContent: "space-evenly"
     },
     footer: {

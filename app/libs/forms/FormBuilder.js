@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    View, StyleSheet, Keyboard, Alert, Text
-} from 'react-native';
+import { View, StyleSheet, Keyboard, Alert, Text } from 'react-native';
 
 import FormTextInput from './FormTextInput';
 import FormBooleanInput from './FormBooleanInput';
@@ -176,6 +174,7 @@ class FormBuilder extends React.Component {
             .every(field => !!this.state[field.name]);
         */
         const formFields = this.getFormFields();
+
         //validate required
         let isValid = this.validateRequired(formFields);
 
@@ -400,7 +399,7 @@ class FormBuilder extends React.Component {
                         onPress={this.attemptFormSubmission}
                         //disabled={!this.hasValidFormData()}
                         iconName='check'
-                        iconType="Feather"
+                        iconType="feather"
                     >
                         {submitBtnTitle}
                     </FormButton>
@@ -410,7 +409,8 @@ class FormBuilder extends React.Component {
                             onPress={this.resetForm}
                             disabled={!this.hasDirtyFormData()}
                             iconName='lock-reset'
-                            iconType="MaterialCommunityIcons"
+                            iconType="material-community"
+                            type="outline"
                         >
                             {resetBtnTitle}
                         </FormButton>
@@ -463,9 +463,6 @@ FormBuilder.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        paddingBottom: 15,
-    },
     row: {
         flexDirection: 'row',
         marginBottom: 15,

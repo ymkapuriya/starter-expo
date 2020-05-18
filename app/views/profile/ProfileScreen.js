@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, H1 } from "native-base";
+import { Col, Row, Grid } from "react-native-easy-grid";
+import { Text } from 'react-native-elements';
+
 import Colors from '_styles/colors';
 import AppHeader from '_components/AppHeader';
 
@@ -11,21 +13,21 @@ export default class ProfileScreen extends Component {
 
     render() {
         return (
-            <Container>
+            <>
                 <AppHeader
                     title="Profile"
                     iconName="account"
-                    iconType="MaterialCommunityIcons"
+                    iconType="material-community"
                     {...this.props}
                 />
                 <Grid>
                     <Row size={100}>
                         <Col style={styles.content}>
-                            <H1 style={styles.title}>Profile</H1>
+                            <Text h4 h4Style={styles.title}>Profile</Text>
                         </Col>
                     </Row>
                 </Grid>
-            </Container>
+            </>
         )
     }
 }

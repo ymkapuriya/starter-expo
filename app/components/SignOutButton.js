@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Icon } from "native-base";
+import { Icon } from "react-native-elements";
 import Colors from '_styles/colors';
 
 // Redux
@@ -23,17 +23,20 @@ class SignOutButton extends Component {
 
     render() {
         return (
-            <Button transparent onPress={() => this.handleSignOut()}>
-                <Icon name='log-out' style={styles.title} />
-            </Button>
+            <Icon
+                name='logout'
+                type='material-community'
+                iconStyle={styles.title}
+                color={Colors.bg}
+                onPress={() => this.handleSignOut()}
+            />
         );
     }
 }
 
 const styles = StyleSheet.create({
-    title : {
-        fontWeight: "600",
-        color: Colors.bg,
+    title: {
+        padding: 5,
     }
 });
 

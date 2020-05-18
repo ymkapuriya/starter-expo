@@ -176,39 +176,22 @@ export default class SignUpForm extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.keyboardView}
-            >
-                <ScrollView style={styles.container}>
-                    <FormBuilder
-                        formFieldsRows={this.getFormFields()}
-                        defaultValues={this.getDefaultValues()}
-                        handleSubmit={this.handleSubmit}
-                        submitBtnTitle="Sign Up"
-                        resetBtnTitle="Clear"
-                        hideReset={false}
-                        resetForm={this.state.resetForm}
-                        resetCallback={this.clearResetStatus}
-                    />
-                </ScrollView>
-            </KeyboardAvoidingView>
+            <FormBuilder
+                formFieldsRows={this.getFormFields()}
+                defaultValues={this.getDefaultValues()}
+                handleSubmit={this.handleSubmit}
+                submitBtnTitle="Sign Up"
+                resetBtnTitle="Clear"
+                hideReset={false}
+                resetForm={this.state.resetForm}
+                resetCallback={this.clearResetStatus}
+            />
         )
     }
 }
 
 const styles = StyleSheet.create({
-    keyboardView: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center'
-    },
     container: {
         paddingVertical: 10,
-    },
-    command: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
     }
 });

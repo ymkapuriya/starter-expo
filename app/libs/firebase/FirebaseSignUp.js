@@ -86,7 +86,6 @@ export default class FirebaseSignUp extends Component {
 
 const styles = StyleSheet.create({
     keyboardView: {
-        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center'
     },

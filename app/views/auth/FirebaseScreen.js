@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Grid, Row, Col, Card, CardItem, H1, H2, Button } from "native-base";
+import { StyleSheet, View } from "react-native";
+import { Text, Button, Card } from 'react-native-elements';
+
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 import ViewPager from '@react-native-community/viewpager';
 
+//styles
 import Colors from '_styles/colors';
+import { CardStyle } from '_styles/global';
 
 //libs
 import FirebaseSignIn from '_libs/firebase/FirebaseSignIn';
@@ -67,9 +72,9 @@ export default class FirebaseScreen extends Component {
                 <Grid>
                     <Row size={10}>
                         <View style={styles.titleCont}>
-                            <H1 style={styles.title}>
+                            <Text h4 h4Style={styles.title}>
                                 Firebase Authentication
-                            </H1>
+                            </Text>
                         </View>
                     </Row>
                     <Row size={70}>
@@ -82,56 +87,49 @@ export default class FirebaseScreen extends Component {
                                     showPageIndicator={true}
                                 >
                                     <View style={styles.page} key="1">
-                                        <Card style={styles.card}>
-                                            <CardItem header>
-                                                <H1>Sign-in!</H1>
-                                            </CardItem>
+                                        <Card
+                                            title="Sign-in!"
+                                            containerStyle={[CardStyle.container, styles.card]}>
                                             {this.state.isSignedIn ?
-                                                <>
-                                                    <CardItem>
-                                                        <H2>User : {this.state.loggedUser.email}</H2>
-                                                    </CardItem>
-                                                    <CardItem>
-                                                        <Button
-                                                            onPress={() => this.handleSignOut()}>
-                                                            <Text style={styles.button}>Signout</Text>
-                                                        </Button>
-                                                    </CardItem>
-                                                </>
+                                                <View>
+                                                    <Text>User : {this.state.loggedUser.email}</Text>
+                                                    <Button
+                                                        title="Signout"
+                                                        onPress={() => this.handleSignOut()}
+                                                    />
+                                                </View>
                                                 :
-                                                <CardItem>
+                                                <View>
                                                     <FirebaseSignIn
                                                         onSignIn={this.emailSignIn}
                                                         key="form-signin"
                                                     />
-                                                </CardItem>
+                                                </View>
                                             }
                                         </Card>
                                     </View>
                                     <View style={styles.page} key="2">
-                                        <Card style={styles.card}>
-                                            <CardItem header>
-                                                <H1>Sign-up!</H1>
-                                            </CardItem>
-                                            <CardItem>
+                                        <Card
+                                            title="Sign-up!"
+                                            containerStyle={[CardStyle.container, styles.card]}>
+                                            <View>
                                                 <FirebaseSignUp
                                                     onSignUp={this.emailSignUp}
                                                     key="form-signup"
                                                 />
-                                            </CardItem>
+                                            </View>
                                         </Card>
                                     </View>
                                     <View style={styles.page} key="3">
-                                        <Card style={styles.card}>
-                                            <CardItem header>
-                                                <H1>Phone Auth!</H1>
-                                            </CardItem>
-                                            <CardItem>
+                                        <Card
+                                            title="Phone Auth!"
+                                            containerStyle={[CardStyle.container, styles.card]}>
+                                            <View>
                                                 <FirebasePhone
                                                     onSignIn={this.phoneSignIn}
                                                     key="form-phone"
                                                 />
-                                            </CardItem>
+                                            </View>
                                         </Card>
                                     </View>
                                 </ViewPager>
@@ -192,8 +190,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     card: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: "98%"
     },
     button: {
         padding: 10,

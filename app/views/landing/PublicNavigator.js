@@ -1,5 +1,5 @@
 import React from "react";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Icon } from 'react-native-elements';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -39,7 +39,7 @@ function setScreenTitle(screen) {
  */
 function setIconName(screen, focused) {
     let iconName;
-    let iconType = 'Ionicons';
+    let iconType = 'ionicon';
     switch (screen) {
         case "SignIn":
             iconName = focused ? 'ios-log-in' : 'ios-log-in';
@@ -57,7 +57,7 @@ function setIconName(screen, focused) {
             iconName = focused ? 'logo-facebook' : 'logo-facebook';
             break;
         case "Firebase":
-            iconType = 'MaterialCommunityIcons';
+            iconType = 'material-community';
             iconName = focused ? 'firebase' : 'firebase';
             break;
     }
@@ -74,12 +74,7 @@ const PublicNavigator = () => {
                 tabBarIcon: ({ focused, color, size }) => {
                     let { iconName, iconType } = setIconName(route.name, focused);
                     // You can return any component that you like here!
-                    switch (iconType) {
-                        case 'Ionicons':
-                            return <Ionicons name={iconName} size={size} color={color} />;
-                        case 'MaterialCommunityIcons':
-                            return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
-                    }
+                    return <Icon type={iconType} name={iconName} size={size} color={color} />;
                 },
             })}
             tabBarOptions={{

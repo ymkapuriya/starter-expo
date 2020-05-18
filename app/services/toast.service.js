@@ -1,13 +1,38 @@
-import { Toast } from "native-base";
 import Colors from '_styles/colors';
+import Toast from 'react-native-root-toast';
+//https://www.npmjs.com/package/react-native-root-toast
 
+const defaultOptions = {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    onShow: () => {
+        // calls on toast\`s appear animation start
+    },
+    onShown: () => {
+        // calls on toast\`s appear animation end.
+    },
+    onHide: () => {
+        // calls on toast\`s hide animation start.
+    },
+    onHidden: () => {
+        // calls on toast\`s hide animation end.
+    }
+}
+const POSITION = -50
 
 export class ToastService {
 
+    static show(message) {
+        Toast.show(message, defaultOptions);
+    }
+
     static success(message) {
-        Toast.show({
-            text: message,
-            buttonText: "Ok"
+        Toast.show(message, {
+            position: POSITION
         });
     }
 
@@ -32,13 +57,12 @@ export class ToastService {
                 message = error.message
                 break;
         }
-        Toast.show({
-            text: message,
-            buttonText: "Ok",
+        Toast.show(message, {
             duration: 5000,
-            style: {
-                backgroundColor: Colors.errorBackground
-            }
+            backgroundColor: Colors.errorBackground,
+            shadow: false,
+            opacity: 0.7,
+            position: POSITION
         });
     }
 }

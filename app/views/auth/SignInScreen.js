@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, H1, Text } from "native-base";
+import { StyleSheet, View } from "react-native";
+import { Text } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
@@ -14,6 +15,7 @@ import { notifyError } from '_actions/notify.action';
 
 // Components
 import { SignInForm } from '_forms';
+import { Card } from '_components/elements';
 
 class SignInScreen extends Component {
 
@@ -34,40 +36,36 @@ class SignInScreen extends Component {
 
     render() {
         return (
-            <Container style={styles.background}>
-                <Grid>
-                    <Row size={25}>
-                        <Col style={styles.titleCont}>
-                            <H1 style={styles.title}>
-                                Sign In!
-                            </H1>
-                        </Col>
-                    </Row>
-                    <Row size={65}>
-                        <Col size={10}></Col>
-                        <Col size={80}>
-                            <Card style={styles.formCont}>
-                                <CardItem>
-                                    <SignInForm
-                                        onSubmit={this.handleSignIn}
-                                    />
-                                </CardItem>
-                            </Card>
-                        </Col>
-                        <Col size={10}></Col>
-                    </Row>
-                    <Row size={10}>
-                        <Col style={[styles.titleCont, styles.footerCont]}>
-                            <Text style={styles.footer}>
-                                Developed using
+            <Grid style={styles.background}>
+                <Row size={25}>
+                    <Col style={styles.titleCont}>
+                        <Text h4 h4Style={styles.title}>
+                            Sign In!
                             </Text>
-                            <Text style={[styles.footer, styles.highlight]}>
-                                tcomb-form-native
+                    </Col>
+                </Row>
+                <Row size={65}>
+                    <Col size={10}></Col>
+                    <Col size={80}>
+                        <Card title="Enter Credentials">
+                            <SignInForm
+                                onSubmit={this.handleSignIn}
+                            />
+                        </Card>
+                    </Col>
+                    <Col size={10}></Col>
+                </Row>
+                <Row size={10}>
+                    <Col style={[styles.titleCont, styles.footerCont]}>
+                        <Text style={styles.footer}>
+                            Developed using
                             </Text>
-                        </Col>
-                    </Row>
-                </Grid>
-            </Container>
+                        <Text style={[styles.footer, styles.highlight]}>
+                            tcomb-form-native
+                            </Text>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
@@ -84,12 +82,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color: Colors.fg
     },
-    formCont: {
-        justifyContent: "space-around",
-        alignItems: 'center',
-        paddingBottom: 50,
-    },
-    footerCont : {
+    footerCont: {
         justifyContent: "space-evenly"
     },
     footer: {

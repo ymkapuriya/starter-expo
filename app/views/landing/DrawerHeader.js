@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, ImageBackground } from "react-native";
-import { Text, View, Icon, Grid, Row, Col } from "native-base";
+import { StyleSheet, ImageBackground, View } from "react-native";
+import { Text, Icon } from "react-native-elements";
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 export default function DrawerHeader(props) {
     const user = props.loggedUser;
@@ -21,7 +22,7 @@ export default function DrawerHeader(props) {
                 <View style={styles.textContainer}>
                     <Grid>
                         <Col style={styles.iconCont}>
-                            <Icon type='MaterialIcons' name="account-box" style={styles.icon} />
+                            <Icon type='material' name='account-box' iconStyle={styles.icon} />
                         </Col>
                         <Col>
                             <Row size={2}>

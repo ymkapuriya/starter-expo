@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
-import { Container, Grid, Row, Col, H1, Button, Text } from "native-base";
+import { Text, Button } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import { NavigationContext } from '@react-navigation/native';
 
@@ -73,20 +74,21 @@ export default class MapScreen extends Component {
 
     render() {
         return (
-            <Container>
+            <>
                 <AppHeader
                     title="Google Map"
                     iconName="google-maps"
-                    iconType="MaterialCommunityIcons"
+                    iconType="material-community"
                     {...this.props}
                 />
                 <Grid>
                     <Row size={20}>
                         <Col style={styles.header}>
-                            <H1 style={styles.title}>Google Map & Device Location</H1>
-                            <Button primary rounded onPress={this.initMap} >
-                                <Text>Show Map & Location</Text>
-                            </Button>
+                            <Text h4 h4Style={styles.title}>Google Map & Device Location</Text>
+                            <Button
+                                title="Show Map & Location"
+                                onPress={this.initMap}
+                            />
                         </Col>
                     </Row>
                     <Row size={80}>
@@ -125,7 +127,7 @@ export default class MapScreen extends Component {
                         </Col>
                     </Row>
                 </Grid>
-            </Container>
+            </>
         )
     }
 }

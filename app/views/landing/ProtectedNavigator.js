@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Icon } from "native-base";
+import { Icon } from 'react-native-elements';
 
 //react navigation
 import {
@@ -60,27 +60,27 @@ function setIconName(screen, focused) {
     let name, type;
     switch (screen) {
         case "Dashboard":
-            type = 'MaterialCommunityIcons'
+            type = 'material-community'
             name = focused ? 'view-dashboard' : 'view-dashboard-outline';
             break;
         case "Profile":
-            type = 'MaterialCommunityIcons'
+            type = 'material-community'
             name = focused ? 'account' : 'account-outline';
             break;
         case "Barcode":
-            type = 'MaterialCommunityIcons'
+            type = 'material-community'
             name = focused ? 'barcode-scan' : 'barcode';
             break;
         case "Map":
-            type = 'MaterialCommunityIcons'
+            type = 'material-community'
             name = focused ? 'google-maps' : 'google-maps';
             break;
         case "Push":
-            type = 'Ionicons'
+            type = 'ionicon'
             name = focused ? 'ios-notifications' : 'ios-notifications';
             break;
         case "Logout":
-            type = 'MaterialCommunityIcons'
+            type = 'material-community'
             name = focused ? 'logout' : 'logout';
             break;
     }

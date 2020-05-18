@@ -94,16 +94,11 @@ export default class FirebaseSignIn extends Component {
 
 const styles = StyleSheet.create({
     keyboardView: {
-        flex: 1,
+       // flex: 1,
         flexDirection: 'column',
         justifyContent: 'center'
     },
     container: {
         paddingVertical: 10,
-    },
-    command: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
     }
 });

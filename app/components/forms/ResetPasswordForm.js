@@ -51,36 +51,21 @@ export default class ResetPasswordForm extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView
-                behavior="padding"
-                style={styles.keyboardView}
-            >
-                <ScrollView style={styles.container}>
-                    <FormBuilder
-                        formFieldsRows={this.getFormFields()}
-                        defaultValues={this.getDefaultValues()}
-                        handleSubmit={this.handleSubmit}
-                        submitBtnTitle="Reset Password"
-                        hideReset={true}
-                    />
-                </ScrollView>
-            </KeyboardAvoidingView>
+            <ScrollView style={styles.container}>
+                <FormBuilder
+                    formFieldsRows={this.getFormFields()}
+                    defaultValues={this.getDefaultValues()}
+                    handleSubmit={this.handleSubmit}
+                    submitBtnTitle="Reset Password"
+                    hideReset={true}
+                />
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    keyboardView: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center'
-    },
     container: {
         paddingVertical: 10,
-    },
-    command: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
     }
 });

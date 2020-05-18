@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, H1, Text } from "native-base";
+import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import { Text } from 'react-native-elements';
+
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 
 import { NavigationContext } from '@react-navigation/native';
 
@@ -14,6 +17,7 @@ import { notifyError, notifySuccess } from '_actions/notify.action';
 
 // Components
 import { SignUpForm } from '_forms';
+import { Card } from '_components/elements';
 
 class SignUpScreen extends Component {
 
@@ -71,42 +75,44 @@ class SignUpScreen extends Component {
 
     render() {
         return (
-            <Container style={styles.background}>
-                <Grid>
-                    <Row size={15}>
-                        <Col style={styles.titleCont}>
-                            <H1 style={styles.title}>
-                                Sign Up!
-                            </H1>
-                        </Col>
-                    </Row>
-                    <Row size={75}>
-                        <Col size={10}></Col>
-                        <Col size={80}>
-                            <Card style={styles.formCont}>
-                                <CardItem style={styles.form}>
+            <KeyboardAvoidingView
+                behavior="padding"
+            >
+                <ScrollView>
+                    <Grid style={styles.background}>
+                        <Row size={15}>
+                            <Col style={styles.titleCont}>
+                                <Text h4 h4Style={styles.title}>
+                                    Sign Up!
+                            </Text>
+                            </Col>
+                        </Row>
+                        <Row size={75}>
+                            <Col size={10}></Col>
+                            <Col size={80}>
+                                <Card title="Enter Your Detail">
                                     <SignUpForm
                                         onSubmit={this.handleSignUp}
                                         resetForm={this.state.resetForm}
                                         resetCallbackScreen={this.clearResetStatus}
                                     />
-                                </CardItem>
-                            </Card>
-                        </Col>
-                        <Col size={10}></Col>
-                    </Row>
-                    <Row size={10}>
-                        <Col style={[styles.titleCont, styles.footerCont]}>
-                            <Text style={styles.footer}>
-                                Developed using
+                                </Card>
+                            </Col>
+                            <Col size={10}></Col>
+                        </Row>
+                        <Row size={10}>
+                            <Col style={[styles.titleCont, styles.footerCont]}>
+                                <Text style={styles.footer}>
+                                    Developed using
                             </Text>
-                            <Text style={[styles.footer, styles.highlight]}>
-                                My Form Library
+                                <Text style={[styles.footer, styles.highlight]}>
+                                    My Form Library
                             </Text>
-                        </Col>
-                    </Row>
-                </Grid>
-            </Container>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </ScrollView>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -118,16 +124,25 @@ const styles = StyleSheet.create({
     titleCont: {
         justifyContent: "center",
         alignItems: 'center',
+        paddingVertical: 30
     },
     title: {
         justifyContent: 'center',
         color: Colors.fg
     },
-    formCont: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    card: {
+        padding: 10,
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
-    footerCont : {
+    footerCont: {
         justifyContent: "space-evenly"
     },
     footer: {

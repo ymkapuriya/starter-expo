@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
-import { Container, Grid, Row, Col, H1, Button, Text, Card, CardItem } from "native-base";
+import { Text, Button } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 import { NavigationContext } from '@react-navigation/native';
 
 import Colors from '_styles/colors';
 import AppHeader from '_components/AppHeader';
+import { Card } from '_components/elements';
 import BarcodeScanner from '_libs/barcode/BarcodeScanner';
 
 function ScannedData(props) {
@@ -13,16 +16,11 @@ function ScannedData(props) {
         return <Text>Nothing is scanned.</Text>
     }
     return (
-        <Card>
-            <CardItem>
-                <Text style={styles.scanTitle}>Scanned Data</Text>
-            </CardItem>
-            <CardItem>
+        <Card title="Scanned Data">
+            <View>
                 <Text>Type : {scanned.type}</Text>
-            </CardItem>
-            <CardItem>
                 <Text>Data : {scanned.data}</Text>
-            </CardItem>
+            </View>
         </Card>
     )
 }
@@ -77,20 +75,18 @@ export default class BarcodeScreen extends Component {
 
     render() {
         return (
-            <Container>
+            <>
                 <AppHeader
                     title="Barcode"
                     iconName="barcode-scan"
-                    iconType="MaterialCommunityIcons"
+                    iconType="material-community"
                     {...this.props}
                 />
                 <Grid>
                     <Row size={20}>
                         <Col style={styles.header}>
-                            <H1 style={styles.title}>Barcode</H1>
-                            <Button primary rounded onPress={this.initScan} >
-                                <Text>Scan</Text>
-                            </Button>
+                            <Text h4 h4Style={styles.title}>Barcode</Text>
+                            <Button title="Scan" onPress={this.initScan} />
                         </Col>
                     </Row>
                     <Row size={60}>
@@ -120,7 +116,7 @@ export default class BarcodeScreen extends Component {
                         </View>
                     </Row>
                 </Grid>
-            </Container>
+            </>
         )
     }
 }

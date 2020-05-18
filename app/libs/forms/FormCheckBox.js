@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { ListItem, CheckBox, Text, Body } from 'native-base';
-
+import { CheckBox, Text } from 'react-native-elements';
 
 function CheckItem({ id, title, checked, checkBoxPressed }) {
     return (
-        <ListItem>
-            <CheckBox
-                checked={checked}
-                onPress={() => checkBoxPressed(id)}
-            />
-            <Body>
-                <Text>{title}</Text>
-            </Body>
-        </ListItem>
+        <CheckBox
+            title={title}
+            checked={checked}
+            onPress={() => checkBoxPressed(id)}
+        />
     )
 }
 

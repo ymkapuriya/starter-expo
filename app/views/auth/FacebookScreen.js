@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Grid, Row, Col, Card, CardItem, H1, Text, Button } from "native-base";
+import { Text } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import * as RootNavigation from '_navigations/RootNavigation';
 
@@ -14,6 +15,7 @@ import { notifyError } from '_actions/notify.action';
 
 //libs
 import FacebookSignIn from '_libs/auth/FacebookSignIn';
+import { Card } from '_components/elements';
 
 class FacebookScreen extends Component {
 
@@ -41,51 +43,37 @@ class FacebookScreen extends Component {
 
     render() {
         return (
-            <Container style={styles.background}>
-                <Grid>
-                    <Row size={25}>
-                        <Col style={styles.titleCont}>
-                            <H1 style={styles.title}>
-                                Sign in with Facebook!
-                            </H1>
-                        </Col>
-                    </Row>
-                    <Row size={65}>
-                        <Col size={15}></Col>
-                        <Col size={50}>
-                            <Card style={styles.component}>
-                                <CardItem>
-                                    <Text>
-                                        FacebookSignIn
-                                    </Text>
-                                </CardItem>
-                                <CardItem>
-                                    <Text style={styles.footer}>
-                                        Library
-                                    </Text>
-                                </CardItem>
-                                <CardItem>
-                                    <FacebookSignIn
-                                        onSignIn={this.handleSignIn}
-                                        onSignOut={this.handleSignOut}
-                                    />
-                                </CardItem>
-                            </Card>
-                        </Col>
-                        <Col size={15}></Col>
-                    </Row>
-                    <Row size={10}>
-                        <Col style={[styles.titleCont, styles.footerCont]}>
-                            <Text style={styles.footer}>
-                                Developed using
+            <Grid>
+                <Row size={25}>
+                    <Col style={styles.titleCont}>
+                        <Text h4 h4Style={styles.title}>
+                            Sign in with Facebook!
+                        </Text>
+                    </Col>
+                </Row>
+                <Row size={65}>
+                    <Col size={15}></Col>
+                    <Col size={50}>
+                        <Card style={styles.card}>
+                            <FacebookSignIn
+                                onSignIn={this.handleSignIn}
+                                onSignOut={this.handleSignOut}
+                            />
+                        </Card>
+                    </Col>
+                    <Col size={15}></Col>
+                </Row>
+                <Row size={10}>
+                    <Col style={[styles.titleCont, styles.footerCont]}>
+                        <Text style={styles.footer}>
+                            Developed using
                             </Text>
-                            <Text style={[styles.footer, styles.highlight]}>
-                                expo-facebook
+                        <Text style={[styles.footer, styles.highlight]}>
+                            expo-facebook
                             </Text>
-                        </Col>
-                    </Row>
-                </Grid>
-            </Container>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
@@ -102,7 +90,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color: Colors.fg
     },
-    component: {
+    card: {
         justifyContent: 'center',
         alignItems: 'center',
     },

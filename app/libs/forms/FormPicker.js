@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet } from 'react-native';
-//import { Picker } from '@react-native-community/picker';
-import { Picker, Text, Icon } from 'native-base';
+import { View, StyleSheet, Picker } from 'react-native';
+import { Text, Icon } from 'react-native-elements';
 
 
 /**
