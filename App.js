@@ -27,8 +27,10 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      //Roboto: require('native-base/Fonts/Roboto.ttf'),
-      //Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      'Montserrat': require('./app/assets/fonts/montserrat/Montserrat-Regular.ttf'),
+      'Montserrat-Italic': require('./app/assets/fonts/montserrat/Montserrat-Italic.ttf'),
+      'Montserrat-Bold': require('./app/assets/fonts/montserrat/Montserrat-Bold.ttf'),
+      'Montserrat-BoldItalic': require('./app/assets/fonts/montserrat/Montserrat-BoldItalic.ttf'),
       ...Ionicons.font,
     });
     this.setState({ isReady: true });

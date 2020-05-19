@@ -32,8 +32,8 @@ class LandingScreen extends Component {
     }
 
     render() {
-        const isSignedIn = this.props.auth.isSignedIn;
-        //const isSignedIn = true;
+        //const isSignedIn = this.props.auth.isSignedIn;
+        const isSignedIn = true;
         if (isSignedIn) {
             return (
                 <ProtectedNavigator />

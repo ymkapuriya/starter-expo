@@ -22,7 +22,7 @@ const PlatformDatePicker = (props) => {
         case 'ios':
             return (
                 <DateTimePicker
-                    mode="date"
+                    mode={props.mode}
                     value={props.value}
                     onChange={props.onChange}
                     {...props.inputProps}
@@ -41,7 +41,7 @@ const PlatformDatePicker = (props) => {
                     {
                         display &&
                         <DateTimePicker
-                            mode="date"
+                            mode={props.mode}
                             value={props.value}
                             onChange={onChange}
                             {...props.inputProps}

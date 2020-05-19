@@ -298,12 +298,13 @@ class FormBuilder extends React.Component {
         )
     };
 
-    renderDatePickerInput = ({ name, label, inputProps }) => {
+    renderDatePickerInput = ({ name, label, mode, inputProps }) => {
         let placeHolder = "Select " + name;
         return (
             <View style={styles.fieldCont} key={name}>
                 <FormDatePicker
                     {...inputProps}
+                    mode={mode ? mode : 'date'}
                     placeHolder={placeHolder}
                     value={this.state[name]}
                     onDateSelected={(value) => {

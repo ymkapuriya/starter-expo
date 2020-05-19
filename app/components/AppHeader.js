@@ -6,17 +6,56 @@ import Colors from '_styles/colors';
 import SignOutButton from '_components/SignOutButton';
 
 function Left(props) {
-    return (
-        <Icon
-            name='menu'
-            iconStyle={styles.icon}
-            color={Colors.bg}
-            onPress={() => props.navigation.openDrawer()}
-        />
-    )
+    //in case of left action is defined
+    if (props.leftAction) {
+        return (
+            <Icon
+                name='ios-arrow-back'
+                type='ionicon'
+                iconStyle={styles.icon}
+                color={Colors.bg}
+                onPress={() => props.leftAction()}
+            />
+        )
+    } else {
+        return (
+            <Icon
+                name='menu'
+                iconStyle={styles.icon}
+                color={Colors.bg}
+                onPress={() => props.navigation.openDrawer()}
+            />
+        )
+    }
 }
 
-
+function Right(props) {
+    return (
+        <>
+            {props.rightAction ?
+                <Icon
+                    name={props.iconName}
+                    type={props.iconType}
+                    iconStyle={styles.icon}
+                    color={Colors.bg}
+                    onPress={() => props.rightAction()}
+                /> :
+                <>
+                    <Icon
+                        name={props.iconName}
+                        type={props.iconType}
+                        iconStyle={styles.icon}
+                        color={Colors.bg}
+                    //onPress={() => navigation.navigate('Dashboard')}
+                    />
+                    {/*
+                <SignOutButton></SignOutButton>
+                */}
+                </>
+            }
+        </>
+    )
+}
 
 export default class AppHeader extends Component {
 
@@ -30,33 +69,26 @@ export default class AppHeader extends Component {
         )
     }
 
-    rightComponent = (navigation) => {
-        return (
-            <>
-                <Icon
-                    name={this.props.iconName}
-                    type={this.props.iconType}
-                    iconStyle={styles.icon}
-                    color={Colors.bg}
-                    onPress={() => navigation.navigate('Dashboard')}
-                />
-                {/*
-                <SignOutButton></SignOutButton>
-                */}
-            </>
-        )
-    }
-
     render() {
         //derive navigation prop from parent
         const { navigation } = this.props;
         return (
             <Header
-                leftComponent={<Left navigation={navigation} />}
+                leftComponent={
+                    <Left
+                        navigation={navigation}
+                        leftAction={this.props.leftAction}
+                    />
+                }
                 centerComponent={this.centerComponent}
-                rightComponent={this.rightComponent(navigation)}
+                rightComponent={
+                    <Right
+                        rightComponent={this.props.rightAction}
+                        {...this.props}
+                    />
+                }
                 backgroundColor={Colors.fg}
-                containerStyle={{ height: 75 }}
+                containerStyle={styles.header}
                 barStyle="default"
             />
         )
@@ -65,7 +97,7 @@ export default class AppHeader extends Component {
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: Colors.fg
+        height: 75
     },
     title: {
         fontSize: 20,
@@ -73,6 +105,6 @@ const styles = StyleSheet.create({
         color: Colors.bg,
     },
     icon: {
-        padding: 5,
+        padding: 10,
     }
 });

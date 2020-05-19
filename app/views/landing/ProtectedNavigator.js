@@ -21,6 +21,7 @@ import ProfileScreen from "_views/profile/ProfileScreen";
 import BarcodeScreen from "_views/barcode/BarcodeScreen";
 import MapScreen from "_views/map/MapScreen";
 import PushScreen from "_views/notification/PushScreen";
+import CalenderScreen from "_views/calender/CalenderScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
@@ -46,6 +47,8 @@ function setScreenTitle(screen) {
             return 'Google Map Demo'
         case 'Push':
             return 'Push Notifications'
+        case 'Calender':
+            return 'Calender'
         default:
             return screen
     }
@@ -78,6 +81,10 @@ function setIconName(screen, focused) {
         case "Push":
             type = 'ionicon'
             name = focused ? 'ios-notifications' : 'ios-notifications';
+            break;
+        case "Calender":
+            type = 'material-community'
+            name = focused ? 'calendar-month' : 'calendar-month-outline';
             break;
         case "Logout":
             type = 'material-community'
@@ -171,6 +178,7 @@ class ProtectedNavigator extends Component {
                 <Drawer.Screen name="Barcode" component={BarcodeScreen} />
                 <Drawer.Screen name="Map" component={MapScreen} />
                 <Drawer.Screen name="Push" component={PushScreen} />
+                <Drawer.Screen name="Calender" component={CalenderScreen} />
             </Drawer.Navigator>
         )
     }
