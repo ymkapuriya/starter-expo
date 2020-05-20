@@ -41,7 +41,7 @@ FormTextInput.defaultProps = {
 
 const styles = StyleSheet.create({
     inputWrapper: {
-        flex: 1,        
+        //flex: 1,        
         paddingHorizontal: 10,
     },
     textInput: {

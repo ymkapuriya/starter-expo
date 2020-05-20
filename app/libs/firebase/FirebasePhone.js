@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import { ScrollView, View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 
 import { Data as EnvData } from '_configs/constants';
@@ -8,8 +8,10 @@ import { Data as EnvData } from '_configs/constants';
 import { FormBuilder } from '_libs/forms';
 
 //services
-import { FirebaseService as firebase } from '_services/firebase.service'
+import FirebaseAuthService from '_services/firebase/auth.service'
 import { ToastService as toast } from '_services/toast.service'
+
+const firebase = new FirebaseAuthService();
 
 const verifyFields = [
     [
@@ -95,7 +97,7 @@ export default class FirebasePhone extends Component {
                 behavior="padding"
                 style={styles.keyboardView}
             >
-                <ScrollView>
+                <View style={styles.container}>
                     {!this.state.verificationId ?
                         <>
                             <FirebaseRecaptchaVerifierModal
@@ -118,7 +120,7 @@ export default class FirebasePhone extends Component {
                             hideReset={true}
                         />
                     }
-                </ScrollView>
+                </View>
             </KeyboardAvoidingView>
         )
     }

@@ -16,9 +16,9 @@ import FirebaseSignUp from '_libs/firebase/FirebaseSignUp';
 import FirebasePhone from '_libs/firebase/FirebasePhone';
 
 //services
-import { FirebaseService as firebase } from '_services/firebase.service';
 import { ToastService as toast } from '_services/toast.service'
-
+import FirebaseAuthService from '_services/firebase/auth.service'
+const firebase = new FirebaseAuthService();
 
 export default class FirebaseScreen extends Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Data as EnvData } from '_configs/constants';
 import { FormBuilder } from '_libs/forms';
@@ -73,24 +73,26 @@ export default class SignInForm extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <FormBuilder
-                    formFieldsRows={this.getFormFields()}
-                    defaultValues={this.getDefaultValues()}
-                    handleSubmit={this.handleSubmit}
-                    submitBtnTitle="Login"
-                    resetBtnTitle="Reset"
-                    hideReset={false}
-                    resetForm={this.state.resetForm}
-                    resetCallback={this.clearResetStatus}
-                />
-            </ScrollView>
+            <KeyboardAvoidingView>
+                <View style={styles.container}>
+                    <FormBuilder
+                        formFieldsRows={this.getFormFields()}
+                        defaultValues={this.getDefaultValues()}
+                        handleSubmit={this.handleSubmit}
+                        submitBtnTitle="Login"
+                        resetBtnTitle="Reset"
+                        hideReset={false}
+                        resetForm={this.state.resetForm}
+                        resetCallback={this.clearResetStatus}
+                    />
+                </View>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 10,
+        paddingVertical: 0,
     }
 });

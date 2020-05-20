@@ -468,7 +468,6 @@ const styles = StyleSheet.create({
         fontStyle: "italic"
     },
     command: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 10

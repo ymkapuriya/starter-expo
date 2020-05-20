@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import Colors from '_styles/colors';
 import { Data as data } from '_configs/constants';
@@ -51,21 +51,23 @@ export default class ResetPasswordForm extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <FormBuilder
-                    formFieldsRows={this.getFormFields()}
-                    defaultValues={this.getDefaultValues()}
-                    handleSubmit={this.handleSubmit}
-                    submitBtnTitle="Reset Password"
-                    hideReset={true}
-                />
-            </ScrollView>
+            <KeyboardAvoidingView>
+                <View style={styles.container}>
+                    <FormBuilder
+                        formFieldsRows={this.getFormFields()}
+                        defaultValues={this.getDefaultValues()}
+                        handleSubmit={this.handleSubmit}
+                        submitBtnTitle="Reset Password"
+                        hideReset={true}
+                    />
+                </View>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 10,
+        paddingVertical: 0,
     }
 });

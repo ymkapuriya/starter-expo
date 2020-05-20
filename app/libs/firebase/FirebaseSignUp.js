@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 
 import { Data as EnvData } from '_configs/constants';
 
 import { FormBuilder } from '_libs/forms';
-import { FirebaseService as firebase } from '_services/firebase.service'
+import FirebaseAuthService from '_services/firebase/auth.service'
 import { ToastService as toast } from '_services/toast.service'
+
+const firebase = new FirebaseAuthService();
 
 const formFields = [
     [
@@ -70,7 +72,7 @@ export default class FirebaseSignUp extends Component {
                 behavior="padding"
                 style={styles.keyboardView}
             >
-                <ScrollView>
+                <View style={styles.container}>
                     <FormBuilder
                         formFieldsRows={this.getFormFields()}
                         defaultValues={this.getDefaultValues()}
@@ -78,7 +80,7 @@ export default class FirebaseSignUp extends Component {
                         submitBtnTitle="Sign Up"
                         hideReset={true}
                     />
-                </ScrollView>
+                </View>
             </KeyboardAvoidingView>
         )
     }
