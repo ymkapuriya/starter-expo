@@ -1,12 +1,8 @@
+import firebase from './init';
 
-import * as firebase from 'firebase';
+export default class FirebaseAuthService {
 
-import { FIREBASE_CONFIGS } from '_libs/firebase/config';
-
-class Firebase {
-
-    constructor() {
-        firebase.initializeApp(FIREBASE_CONFIGS);
+    constructor() {        
         this.firebase = firebase;
         this.configs = firebase.app().options;
         this.auth = firebase.auth();
@@ -39,27 +35,6 @@ class Firebase {
                 return Promise.reject(error.toString(error));
             }
             return Promise.resolve(user);
-        } catch (error) {
-            return Promise.reject(error.toString(error))
-        }
-    }
-
-    /**
-     * Sign in using email and password
-     * 
-     * @param {string} email 
-     * @param {string} password 
-     * @param {bool} allowVerifiedEmail 
-     */
-    async emailSignIn(email, password, allowVerifiedEmail = false) {
-        try {
-            //create user with email and password
-            const response = await this.auth.signInWithEmailAndPassword(email, password);
-            const user = response.user;
-            if ((allowVerifiedEmail && user.emailVerified) || !allowVerifiedEmail) {
-                return Promise.resolve(user);
-            }
-            return Promise.reject("Error : Your email address is not verified.");
         } catch (error) {
             return Promise.reject(error.toString(error))
         }
@@ -142,5 +117,3 @@ class Firebase {
         }
     }
 }
-
-export const FirebaseService = new Firebase();

@@ -22,6 +22,7 @@ import BarcodeScreen from "_views/barcode/BarcodeScreen";
 import MapScreen from "_views/map/MapScreen";
 import PushScreen from "_views/notification/PushScreen";
 import CalenderScreen from "_views/calender/CalenderScreen";
+import FirestoreScreen from "_views/firestore/FirestoreScreen";
 
 //services
 import { AlertService as alert } from '_services/alert.service';
@@ -49,6 +50,8 @@ function setScreenTitle(screen) {
             return 'Push Notifications'
         case 'Calender':
             return 'Calender'
+        case 'Firestore':
+            return 'Firestore'
         default:
             return screen
     }
@@ -85,6 +88,10 @@ function setIconName(screen, focused) {
         case "Calender":
             type = 'material-community'
             name = focused ? 'calendar-month' : 'calendar-month-outline';
+            break;
+        case "Firestore":
+            type = 'material-community'
+            name = focused ? 'firebase' : 'firebase';
             break;
         case "Logout":
             type = 'material-community'
@@ -158,7 +165,7 @@ class ProtectedNavigator extends Component {
         const Drawer = createDrawerNavigator();
         return (
             <Drawer.Navigator
-                initialRouteName="Dashboard"
+                initialRouteName="Firestore"
                 hideStatusBar={true}
                 drawerContent={(props) => this.getDrawerContent({ ...props })}
                 drawerContentOptions={{
@@ -179,6 +186,7 @@ class ProtectedNavigator extends Component {
                 <Drawer.Screen name="Map" component={MapScreen} />
                 <Drawer.Screen name="Push" component={PushScreen} />
                 <Drawer.Screen name="Calender" component={CalenderScreen} />
+                <Drawer.Screen name="Firestore" component={FirestoreScreen} />
             </Drawer.Navigator>
         )
     }

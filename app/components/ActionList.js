@@ -73,7 +73,10 @@ class ActionList extends Component {
      */
     handleAction = (rowMap, rowKey, parentAction) => {
         rowMap[rowKey].closeRow();
-        parentAction(rowKey)
+        setTimeout(() => {
+            parentAction(rowKey)
+        }, 500);
+
     }
 
     /**
