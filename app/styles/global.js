@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const CardStyle = StyleSheet.create({
+const CardStyles = StyleSheet.create({
     container: {
         backgroundColor: "white",
         shadowColor: "#000",
@@ -29,4 +29,57 @@ const CardStyle = StyleSheet.create({
     }
 });
 
-export { CardStyle }
+const FormStyles = StyleSheet.create({
+    inputWrapper: {
+        //flex: 1,        
+        paddingHorizontal: 10,
+    },
+    inputCont : {
+        paddingVertical: 10,
+    },
+    textInput: {
+        height: 40,
+        paddingHorizontal: 10,
+        fontSize: 18,
+        borderBottomWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 3,
+        paddingLeft: 3
+    },
+    label: {
+        marginBottom: 5,
+        color: 'grey'
+    },
+    textarea: {
+        height: 80,
+    },
+    error: {
+        paddingTop: 5,
+        paddingHorizontal: 10,
+        color: "red",
+        fontStyle: "italic"
+    },
+    command: {
+        marginTop: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 10
+    }
+})
+
+const TextStyles = StyleSheet.create({
+    label: {
+        color: "grey",
+        marginBottom: 5
+    },
+    value: {
+        fontFamily: "Montserrat",
+        marginBottom: 10,
+        fontSize: 20
+    },
+    divider : {
+        marginVertical: 10
+    }
+})
+
+export { CardStyles, FormStyles, TextStyles }

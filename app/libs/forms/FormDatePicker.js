@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, Text, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,8 +8,20 @@ import { UtilityService as utility } from '_services/utility.service';
 
 const PlatformDatePicker = (props) => {
 
+    const { mode, value } = props
+
     const [label, setLabel] = useState('')
     const [display, setDisplay] = useState(false)
+
+    useEffect(() => {
+        if (Platform.OS == 'android') {
+            const label = utility.dateToString(value, 'DD-MM-YYYY');
+            setLabel(label);
+        }
+        return () => {
+            //
+        }
+    }, [value])
 
     const onChange = (event, date) => {
         setDisplay(false)
@@ -22,8 +34,8 @@ const PlatformDatePicker = (props) => {
         case 'ios':
             return (
                 <DateTimePicker
-                    mode={props.mode}
-                    value={props.value}
+                    mode={mode}
+                    value={value}
                     onChange={props.onChange}
                     {...props.inputProps}
                 />
@@ -36,13 +48,13 @@ const PlatformDatePicker = (props) => {
                         onPress={() => setDisplay(true)}
                     >
                         <Text style={styles.selectedDate}>{label}</Text>
-                        <Text style={styles.selectLabel}>Select</Text>                        
+                        <Text style={styles.selectLabel}>Select</Text>
                     </TouchableOpacity>
                     {
                         display &&
                         <DateTimePicker
-                            mode={props.mode}
-                            value={props.value}
+                            mode={mode}
+                            value={value}
                             onChange={onChange}
                             {...props.inputProps}
                         />
@@ -119,7 +131,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         color: 'grey'
     },
-    select: {        
+    select: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between"
@@ -129,8 +141,8 @@ const styles = StyleSheet.create({
         color: 'skyblue'
     },
     selectedDate: {
-        fontSize: 15,   
-        paddingStart: 10     
+        fontSize: 15,
+        paddingStart: 10
     }
 });
 

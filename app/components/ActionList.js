@@ -44,7 +44,8 @@ class ActionList extends Component {
         super(props)
 
         this.state = {
-            data: this.props.data
+            data: this.props.data,
+            refreshing: false
         }
 
         //console.log(this.state.data);
@@ -116,6 +117,19 @@ class ActionList extends Component {
         )
     }
 
+    onRefresh = async () => {
+        //in case on re
+        if (this.props.onRefresh) {
+            this.setState({
+                refreshing: true
+            })
+            await this.props.onRefresh();
+            this.setState({
+                refreshing: false
+            })
+        }
+    }
+
     render() {
         return (
             <SwipeListView
@@ -130,6 +144,8 @@ class ActionList extends Component {
                         rowMap[rowKey].closeRow()
                     }, 2000)
                 }}
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
             />
         )
     }
@@ -163,7 +179,7 @@ ActionList.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
             key: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
+            title: PropTypes.string,
             subtitle: PropTypes.string,
             other: PropTypes.object,
         }),
@@ -187,7 +203,8 @@ ActionList.propTypes = {
             callback: PropTypes.func.isRequired,
         }),
     ),
-    actionWidth: PropTypes.number
+    actionWidth: PropTypes.number,
+    onRefresh: PropTypes.func,
 };
 
 /**
@@ -198,7 +215,8 @@ ActionList.defaultProps = {
     renderItem: f => f,
     leftActions: [],
     rightActions: [],
-    actionWidth: 60
+    actionWidth: 60,
+    onRefresh: f => f,
 };
 
 export default ActionList;

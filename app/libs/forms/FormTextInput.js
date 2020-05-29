@@ -12,13 +12,14 @@ import {
  */
 class FormTextInput extends React.Component {
     render() {
-        const { labelText, multiline, ...inputProps } = this.props;
+        const { labelText, multiline, inputStyle, labelStyle, ...inputProps } = this.props;
 
         return (
             <View style={styles.inputWrapper}>
-                {labelText && <Text style={styles.label}>{labelText}</Text>}
+                {labelText && <Text style={[styles.label, labelStyle]}>{labelText}</Text>}
                 <TextInput
-                    style={[styles.textInput, multiline && styles.textarea]}
+                    ref={this.props.setRef}
+                    style={[styles.textInput, multiline && styles.textarea, inputStyle]}
                     blurOnSubmit
                     {...inputProps}
                     multiline={multiline}
@@ -32,11 +33,18 @@ FormTextInput.propTypes = {
     value: PropTypes.string,
     labelText: PropTypes.string,
     multiline: PropTypes.bool,
+    setRef: PropTypes.func,
+    inputStyle: PropTypes.object,
+    labelStyle: PropTypes.object
 };
 
 FormTextInput.defaultProps = {
+    value: "",
     labelText: null,
     multiline: false,
+    setRef: f => f,
+    inputStyle: {},
+    labelStyle: {}
 };
 
 const styles = StyleSheet.create({

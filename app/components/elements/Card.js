@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
         elevation: 2,
         paddingVertical: 10,
+        paddingHorizontal: 10,
     },
     title: {
         fontSize: 20,

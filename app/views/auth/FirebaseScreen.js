@@ -8,7 +8,7 @@ import ViewPager from '@react-native-community/viewpager';
 
 //styles
 import Colors from '_styles/colors';
-import { CardStyle } from '_styles/global';
+import { CardStyles } from '_styles/global';
 
 //libs
 import FirebaseSignIn from '_libs/firebase/FirebaseSignIn';
@@ -89,7 +89,7 @@ export default class FirebaseScreen extends Component {
                                     <View style={styles.page} key="1">
                                         <Card
                                             title="Sign-in!"
-                                            containerStyle={[CardStyle.container, styles.card]}>
+                                            containerStyle={[CardStyles.container, styles.card]}>
                                             {this.state.isSignedIn ?
                                                 <View>
                                                     <Text>User : {this.state.loggedUser.email}</Text>
@@ -111,7 +111,7 @@ export default class FirebaseScreen extends Component {
                                     <View style={styles.page} key="2">
                                         <Card
                                             title="Sign-up!"
-                                            containerStyle={[CardStyle.container, styles.card]}>
+                                            containerStyle={[CardStyles.container, styles.card]}>
                                             <View>
                                                 <FirebaseSignUp
                                                     onSignUp={this.emailSignUp}
@@ -123,7 +123,7 @@ export default class FirebaseScreen extends Component {
                                     <View style={styles.page} key="3">
                                         <Card
                                             title="Phone Auth!"
-                                            containerStyle={[CardStyle.container, styles.card]}>
+                                            containerStyle={[CardStyles.container, styles.card]}>
                                             <View>
                                                 <FirebasePhone
                                                     onSignIn={this.phoneSignIn}

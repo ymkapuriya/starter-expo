@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'center',
+        minWidth: 100
     },
     buttonText: {
         fontSize: 16,
